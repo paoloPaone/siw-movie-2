@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<title>Conferma Eliminazione</title>
+	<link rel="stylesheet" href="/css/stile.css" />
+</head>
+<body>
+    <h1>Conferma Eliminazione Film</h1>
+    <p>Sei sicuro di voler eliminare il seguente film e le relative recensioni?</p>
+    
+    <h2 th:text="${movie.title}"></h2>
+    <p><strong>Anno:</strong> <span th:text="${movie.year}"></span></p>
+    <p th:if="${movie.director != null}"><strong>Regista:</strong> 
+		<span th:text="${movie.director.name}"></span>	
+	</p>
+	<p th:unless="${movie.director != null}">Non c'è alcun regista per questo film</p>
+    <p><strong>Attori:</strong></p>
+    <span th:if="${movie.actors.isEmpty()}">Non c'è alcun attore per questo film</span>
+    <ul>
+        <li th:each="actor : ${movie.actors}" th:text="${actor.name}"></li> 
+    </ul>
+    
+    <h3>Recensioni:</h3>
+    <table>
+        <thead>
+            <tr>
+                <th>Titolo</th>
+                <th>Valutazione</th>
+                <th>Testo</th>
+                <th>Utente</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr th:each="review : ${reviews}">
+                <td th:text="${review.title}"></td>
+                <td th:text="${review.rating}"></td>
+                <td th:text="${review.text}"></td>
+                <td th:text="${review.owner.surname}"></td>
+            </tr>
+        </tbody>
+    </table>
+    
+   <form th:action="@{/admin/deleteMovie}" method="POST" >
+        <input type="hidden" name="movieId" th:value="${movie.id}">
+        <button type="submit">Conferma Eliminazione</button>
+    </form>
+    
+    <a href="/admin/manageMovies">Torna alla lista dei film</a>
+</body>
+</html>

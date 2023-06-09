@@ -1,0 +1,35 @@
+body {
+    background-image:url("/images/sfondo-image.jpg");
+}
+
+
+.card {
+    border: none; /* Rimuove il bordo predefinito */
+    background-color: transparent; /* Sfondo trasparente */
+    box-shadow: none; /* Rimuove l'ombra predefinita */
+}
+
+.card-content {
+    background-color: #1b1b1b; /* Sfondo scuro per il contenuto della card */
+    border: 1px solid #e50914; /* Bordo rosso */
+    box-shadow: 0 0 
+}
+
+  /* Personalizza lo stile della pagina se necessario */
+        body {
+            padding: 20px;
+            font-size: 18px;
+            color: white; /* Aggiunto per rendere tutte le scritte bianche */
+        }
+        a {
+            color: white; /* Aggiunto per rendere tutti i link bianchi */
+        }
+        h1 {
+            color: white; /* Aggiunto per rendere l'intestazione bianca */
+        }
+        label {
+            color: white; /* Aggiunto per rendere le etichette bianche */
+        }
+        .btn {
+            color: white; /* Aggiunto per rendere i pulsanti bianchi */
+        }

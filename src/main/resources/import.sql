@@ -1,0 +1,7 @@
+--insert into movie values(nextval('hibernate_sequence'), 'Full metal jacket',1987,NULL,NULL);
+--insert into movie values(nextval('hibernate_sequence'), 'Non e' un paese per vecchi',2007,NULL, 'https://aforismi.meglio.it/img/film/Non_%C3%A8_un_paese_per_vecchi.jpg');
+--insert into movie values(nextval('hibernate_sequence'), 'The founder',2016,NULL,'https://pad.mymovies.it/filmclub/2016/03/235/locandina.jpg');
+--insert into movie values(nextval('hibernate_sequence'), 'Harry Potter e la pietra filosofale',2001,NULL,'https://pad.mymovies.it/filmclub/2001/12/001/locandina.jpg');
+--insert into artist values(nextval('hibernate_sequence'), '1958-09-10',NULL,'Chris','Columbus','https://upload.wikimedia.org/wikipedia/commons/thumb/1/14/Chris_Columbus.jpg/800px-Chris_Columbus.jpg');
+--insert into artist values(nextval('hibernate_sequence'), ,'1958-08-25',NULL,'Tim','Burton','https://upload.wikimedia.org/wikipedia/commons/thumb/d/d8/Tim_Burton_by_Gage_Skidmore.jpg/440px-Tim_Burton_by_Gage_Skidmore.jpg');
+--insert into artist values(nextval('hibernate_sequence'), '1977-06-03',NULL,'Checco','Zalone','https://upload.wikimedia.org/wikipedia/commons/e/e3/Checco_Zalone.jpg');

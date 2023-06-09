@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>SiwMovie - Gestione Film</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.7.3/font/bootstrap-icons.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="/css/stile.css" rel="stylesheet">
+    <link href="/css/animate.min.css" rel="stylesheet">
+    <!-- Altri tag head... -->
+
+    
+    
+    <style>
+        .card {
+            background-color: transparent;
+            border: none;
+        }
+
+        .card-header {
+            background-color: inherit;
+            color: white;
+        }
+
+        .card-title {
+            color: white;
+        }
+
+        .card-text {
+            color: white;
+        }
+        
+    </style>
+</head>
+
+<body>
+    	<header class="navbar navbar-expand-lg navbar">
+    <div class="container justify-content-center">
+        <a class="navbar-brand"></a>
+        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-cast"
+            viewBox="0 0 16 16">
+            <path
+                d="m7.646 9.354-3.792 3.792a.5.5 0 0 0 .353.854h7.586a.5.5 0 0 0 .354-.854L8.354 9.354a.5.5 0 0 0-.708 0z" />
+            <path
+                d="M11.414 11H14.5a.5.5 0 0 0 .5-.5v-7a.5.5 0 0 0-.5-.5h-13a.5.5 0 0 0-.5.5v7a.5.5 0 0 0 .5.5h3.086l-1 1H1.5A1.5 1.5 0 0 1 0 10.5v-7A1.5 1.5 0 0 1 1.5 2h13A1.5 1.5 0 0 1 16 3.5v7a1.5 1.5 0 0 1-1.5 1.5h-2.086l-1-1z" />
+        </svg>
+        <em>SiwMovie</em>
+        </a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
+            aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse justify-content-center" id="navbarNav">
+            <ul class="navbar-nav">
+				<li class="nav-item position-absolute top-0 start-0">
+					<a class="nav-link" href="/home">
+                        <button type="button" class="btn btn-outline-dark">Home</button>
+                    </a>
+                <li class="nav-item">
+                    <a class="nav-link" href="/logout">
+                        <button type="button" class="btn btn-outline-dark">Disconnettiti</button>
+                    </a>
+                </li>
+                <li class="nav-item position-absolute top-0 end-0">
+                <div th:text="'Ciao ' + ${#request.userPrincipal.principal.username}"></div>
+                </li>
+            </ul>
+        </div>
+        <span class="ml-auto">
+            <a class="btn btn-outline-light" href="/register">Non sei ancora registrato? Registrati!</a>
+        </span>
+                
+    </div>
+</header>
+    <a href="/"><img src="/images/logo-siw.png" width="50%" /></a>
+
+    <div class="container text-center">
+        <div class="row">
+            <div class="col-lg-6 offset-lg-3">
+                <div class="card bg">
+                    <h3 class="card-header">Recensione Film</h3>
+                    <div class="card-body">
+                        <h5 class="card-header  animated bounce">Recensione Film</h5>
+                        <p class="card-text">Ricerca i film che ti sono piaciuti e aggiungi una recensione!</p>
+                        <a href="/utente/manageMovies" class="btn btn-outline-success">Gestisci film</a>
+                        <a href="/formSearchMovies" class=" btn btn-outline-success">Cerca film per anno</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+  <footer class="footer fixed-bottom">
+    <div class="container-fluid">
+        <div class="row mt-9 justify-content-end">
+            <div class="col-md-6">
+                <div class="footer-right">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="currentColor" class="bi bi-chat-right-dots" viewBox="0 0 16 16">
+                        <path d="M2 1a1 1 0 0 0-1 1v8a1 1 0 0 0 1 1h9.586a2 2 0 0 1 1.414.586l2 2V2a1 1 0 0 0-1-1H2zm12-1a2 2 0 0 1 2 2v12.793a.5.5 0 0 1-.854.353l-2.853-2.853a1 1 0 0 0-.707-.293H2a2 2 0 0 1-2-2V2a2 2 0 0 1 2-2h12z"/>
+                        <path d="M5 6a1 1 0 1 1-2 0 1 1 0 0 1 2 0zm4 0a1 1 0 1 1-2 0 1 1 0 0 1 2 0zm4 0a1 1 0 1 1-2 0 1 1 0 0 1 2 0z"/>
+                    </svg>
+                    <span><em>Contattaci sui social</em></span>
+                </div>
+            </div>
+            <div class="col-md-6 text-end">
+                <div class="footer-left">
+                    <span> SiwMovie2LaVendetta. &copy;Tutti i diritti riservati.</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</footer>
+
+</body>
+
+</html>

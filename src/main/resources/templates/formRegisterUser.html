@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>SiwMovie - Registrazione</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.7.3/font/bootstrap-icons.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="/css/stile.css" rel="stylesheet">
+    <style>
+        /* Personalizza lo stile della pagina se necessario */
+        body {
+            padding: 20px;
+            font-size: 18px;
+            color: white; /* Aggiunto per rendere tutte le scritte bianche */
+        }
+        a {
+            color: white; /* Aggiunto per rendere tutti i link bianchi */
+        }
+        h1 {
+            color: white; /* Aggiunto per rendere l'intestazione bianca */
+        }
+        label {
+            color: white; /* Aggiunto per rendere le etichette bianche */
+        }
+        .btn {
+            color: white; /* Aggiunto per rendere i pulsanti bianchi */
+        }
+        .text-center {
+            color: white; /* Aggiunto per rendere il testo centrato bianco */
+        }
+    </style>
+</head>
+
+<body>
+    <header>
+        <nav class="navbar navbar-expand-lg navbar-dark bg" data-bs-theme="dark">
+            <div class="container">
+                <a class="navbar-brand" href="/">Home</a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
+                    aria-controls="navbarNav" aria-expanded="true" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="navbarNav">
+                    <ul class="navbar-nav ms-auto">
+                        <li class="nav-item">
+                            <a class="nav-link" href="/login">Accedi con il tuo account!</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <div class="text-center mt-4">
+        <a href="/"><img src="/images/logo-siw.png" class="img-fluid" style="max-width: 50%;" /></a>
+    </div>
+
+    <div class="container">
+        <form th:action="@{/register}" method="POST">
+            <div class="row mt-4 align-items-center">
+                <div class="col-md-4">
+                    <label for="inputUsername" class="form-label">Username:</label>
+                    <input name="username" type="text" class="form-control form-control-sm" id="inputUsername" required>
+                </div>
+            </div>
+            <div class="row mt-4 align-items-center">
+                <div class="col-md-4">
+                    <label for="inputPassword" class="form-label">Password:</label>
+                    <input name="password" type="password" class="form-control form-control-sm" id="inputPassword" required>
+                </div>
+            </div>
+            <div class="row mt-4 align-items-center">
+                <div class="col-md-4">
+                    <label for="inputName" class="form-label">Nome:</label>
+                    <input name="name" type="text" class="form-control form-control-sm" id="inputName" required>
+                </div>
+            </div>
+            <div class="row mt-4 align-items-center">
+                <div class="col-md-4">
+                    <label for="inputSurname" class="form-label">Cognome:</label>
+                    <input name="surname" type="text" class="form-control form-control-sm" id="inputSurname" required>
+                </div>
+            </div>
+            <div class="row mt-4 align-items-center">
+                <div class="col-md-4">
+                    <label for="inputEmail" class="form-label">Email:</label>
+                    <input name="email" type="text" class="form-control form-control-sm" id="inputEmail" required>
+                </div>
+            </div>
+            <div class="row mt-4 align-items-center">
+                <div class="col-12">
+                    <button type="submit" class="btn btn-success btn-lg">Conferma</button>
+                </div>
+            </div>
+        </form>
+    </div>
+
+	<footer class="footer fixed-bottom">
+    	<div class="container-fluid">
+        	<div class="row mt-9 justify-content-end">
+            	<div class="col-md-6">
+                	<div class="footer-right">
+                    	<svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="currentColor" class="bi bi-chat-right-dots" viewBox="0 0 16 16">
+                        	<path d="M2 1a1 1 0 0 0-1 1v8a1 1 0 0 0 1 1h9.586a2 2 0 0 1 1.414.586l2 2V2a1 1 0 0 0-1-1H2zm12-1a2 2 0 0 1 2 2v12.793a.5.5 0 0 1-.854.353l-2.853-2.853a1 1 0 0 0-.707-.293H2a2 2 0 0 1-2-2V2a2 2 0 0 1 2-2h12z"/>
+                        	<path d="M5 6a1 1 0 1 1-2 0 1 1 0 0 1 2 0zm4 0a1 1 0 1 1-2 0 1 1 0 0 1 2 0zm4 0a1 1 0 1 1-2 0 1 1 0 0 1 2 0z"/>
+                    	</svg>
+                    	<span><em>Contattaci sui social</em></span>
+                	</div>
+            	</div>
+            	<div class="col-md-6 text-end">
+                	<div class="footer-left">
+                    	<span> SiwMovie2LaVendetta. &copy;Tutti i diritti riservati.</span>
+                	</div>
+            	</div>
+        	</div>
+    	</div>
+	</footer>
+
+</body>
+
+</html>

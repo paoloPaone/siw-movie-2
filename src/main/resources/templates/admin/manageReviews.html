@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Reviews Movie</title>
+    <link rel="stylesheet" href="/css/stile.css" />
+  </head>
+
+  <body>
+    <header>
+      <div th:if="${#request.userPrincipal}">
+        <span th:text="${#request.userPrincipal.principal.username}"></span>
+        <a href="/logout">Logout</a>
+      </div>
+      <div th:unless="${#request.userPrincipal}">
+        <a href="/login">Login</a>
+      </div>
+    </header>
+
+    <div>
+      <a href="/"><img src="/images/logo-siw.png" width="50%" /></a>
+    </div>
+      	<h1 th:text="'Recensioni del film '+  ${movie.title}+ ':'"></h1>
+      	<div th:if="${movie.reviews == null || movie.reviews.isEmpty()}">Non ci sono recensioni per tale film nel sistema</div>
+      	<div th:unless="${movie.reviews.isEmpty()}">
+      	<ul>
+      		<li th:each="rev : ${movie.reviews}">
+    		 <div th:text="${rev.title}"></div>
+   			 <div th:text="${rev.text}"></div>
+   			 Voto:<span th:text="${rev.rating}"></span>Autore:<span th:text="${rev.owner.name}"></span>
+   			 <a th:href="@{'/admin/deleteReview/'+${rev.id}}">Elimina Recensione</a>
+   			</li>
+   		</ul>
+   		</div>	 
+  	</body>
+</html>

@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Review</title>
+	<link rel="stylesheet" href="/css/stile.css" />
+</head>
+
+<body>
+	<header>
+		<div th:if="${#request.userPrincipal}">
+			<span th:text="${#request.userPrincipal.principal.username}"></span>
+			<a href="/logout">Logout</a>
+		</div>
+		<div th:unless="${#request.userPrincipal}">
+			<a href="/login">Login</a>
+		</div>
+	</header>
+
+	<div><a href="/"><img src="/images/logo-siw.png" width="50%"/></a></div>
+   <form th:object="${review}" th:action="@{'/utente/aggiornaReview/' + ${review.id}}" method="POST">
+  <input type="hidden" th:field="*{id}">
+  
+  <div>
+    <label for="title">Titolo:</label>
+    <input type="text" id="title" th:field="*{title}" th:value="${review.title}">
+  </div>
+  
+  <div>
+    <label for="text">Testo:</label>
+    <textarea id="text" th:field="*{text}">${review.text}</textarea>
+  </div>
+  
+  <div>
+    <label for="rating">Valutazione:</label>
+    <input type="number" id="rating" th:field="*{rating}" min="1" max="5" th:value="${review.rating}">
+  </div>
+  
+  <button type="submit">Aggiorna recensione</button>
+</form>
+
+  </body>
+</html>

@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Review</title>
+	<link rel="stylesheet" href="/css/stile.css" />
+</head>
+
+<body>
+	<header>
+		<div th:if="${#request.userPrincipal}">
+			<span th:text="${#request.userPrincipal.principal.username}"></span>
+			<a href="/logout">Logout</a>
+		</div>
+		<div th:unless="${#request.userPrincipal}">
+			<a href="/login">Login</a>
+		</div>
+	</header>
+
+	<div><a href="/"><img src="/images/logo-siw.png" width="50%"/></a></div>
+    <h1>Dettagli Recensione</h1>
+    <div th:if="${review}">
+		<div th:text="${movie.title} + ':'"></div>
+        <div th:text="${review.title}"></div>
+        <span th:text="'(' + ${review.rating} + ')'">5</span>
+		<div th:text="${review.text}"></div>
+    </div>
+    <a  th:href="@{'/utente/indexMovie'}"><button type="button"> Conferma</button></a>
+    <div th:unless="${review}">Non c'e alcuna recensione</div>
+  </body>
+</html>

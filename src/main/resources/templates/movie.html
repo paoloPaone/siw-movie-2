@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Film</title>
+    <link rel="stylesheet" href="/css/stile.css" />
+  </head>
+
+  <body>
+    <header>
+      <div th:if="${#request.userPrincipal}">
+        <span th:text="${#request.userPrincipal.principal.username}"></span>
+        <a href="/logout">Logout</a>
+      </div>
+      <div th:unless="${#request.userPrincipal}">
+        <a href="/login">Login</a>
+      </div>
+    </header>
+
+    <div>
+      <a href="/"><img src="/images/logo-siw.png" width="50%" /></a>
+    </div>
+    <h1>Dettagli Film</h1>
+    <div th:if="${movie}">
+      <span th:text="${movie.title}">Up!</span>
+      <span th:text="'(' + ${movie.year} + ')'">2000</span>
+      <span><img th:src="@{'data:image/*;base64,'+${movie.picture.base64Image}}"
+					 /span>
+      <div th:if="${movie.director}">
+	<h3>Regista:</h3>
+		<a th:href="@{'/artist/' + ${movie.director.id}}" 
+		th:text="${movie.director.name} + ' ' + ${movie.director.surname}"></a>
+	</div>
+		<div th:if="${!movie.actors.isEmpty()}">
+		<h3>Cast:</h3>
+		<ul>
+			<li th:each="actor : ${movie.actors}">
+				<a th:href="@{'/artist/' + ${actor.id}}" 
+				th:text="${actor.name} + ' ' + ${actor.surname}"></a>
+			</li>
+		</ul>
+	</div>
+      	<div th:if="${movie.reviews == null || movie.reviews.isEmpty()}">Non ci sono recensioni per tale film nel sistema</div>
+      	<div th:unless="${movie.reviews.isEmpty()}">Recensioni:</div>
+      	<ul>
+      		<li th:each="rev : ${movie.reviews}">
+    		 <span th:text="${rev.title}"></span><br>
+   			 <span th:text="${rev.text}"></span>Voto:<span th:text="${rev.rating}"></span>- Recensito da: <span th:text="${rev.owner.name}"></span>
+   			</li>
+   		</ul>	 
+    <div th:unless="${movie}">Non esiste</div>
+     <a href="/movies">Torna alla lista dei film</a>
+  	</body>
+</html>

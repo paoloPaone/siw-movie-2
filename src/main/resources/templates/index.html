@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>SiwMovie - Homepage</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="/css/stile.css" rel="stylesheet">
+</head>
+
+<body>
+		
+    <header class="navbar navbar-expand-lg navbar">
+        <div class="container justify-content-center">
+            <a class="navbar-brand"></a> <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-cast" viewBox="0 0 16 16">
+  			<path d="m7.646 9.354-3.792 3.792a.5.5 0 0 0 .353.854h7.586a.5.5 0 0 0 .354-.854L8.354 9.354a.5.5 0 0 0-.708 0z"/>
+  				<path d="M11.414 11H14.5a.5.5 0 0 0 .5-.5v-7a.5.5 0 0 0-.5-.5h-13a.5.5 0 0 0-.5.5v7a.5.5 0 0 0 .5.5h3.086l-1 1H1.5A1.5 1.5 0 0 1 0 10.5v-7A1.5 1.5 0 0 1 1.5 2h13A1.5 1.5 0 0 1 16 3.5v7a1.5 1.5 0 0 1-1.5 1.5h-2.086l-1-1z"/>
+		</svg><em>SiwMovie</em>
+    		</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
+                aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse justify-content-center" id="navbarNav">
+                <ul class="navbar-nav">
+                    <li class="nav-item">
+    			<a class="nav-link" href="/login">
+        			<button type="button" class="btn btn-outline-light">Accedi con il tuo account!</button>
+    			</a>
+					</li>
+                </ul>
+            </div>
+            <span class="ml-auto">
+                <a class="btn btn-outline-light" href="/register">Non sei ancora registrato? Registrati!</a>
+            </span>
+        </div>
+    </header>
+
+    <div class="bg- p-3">
+        <div class="container-fluid">
+			<div class="row">
+            	<div class="text-center mt-4">
+                	<img src="/images/logo-siw.png" class="img-fluid" style="max-width: 50%;" />
+             	</div>
+            </div>
+            <div class="row">
+            	<div class="bg-text-center">
+                <h1 class="text-white display-12 fw-semibold">Benvenuti in SiwMovie</h1>
+            	</div>
+            </div>
+            <p class="text-center mt-4 lead text-white fw-light">Esplora il nostro fantastico archivio di film e artisti</p>
+            <div class="row mt-9">
+                <div class="col-md-6">
+                    <div class="card bg-dark text-white">
+                        <img src="/images/film-image.jpg" class="card-img" alt="Immagine Film">
+                        <div class="card-img-overlay">
+                            <h5 class="card-title lead text-white">Elenco Film</h5>
+                            <p class="card-text lead text-white">Scopri la nostra vasta selezione di film. Divertiti a esplorare i generi cinematografici e trovare i tuoi preferiti.</p>
+                            <a href="/movies" class="btn btn-outline-light btn-lg">Esplora</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="card bg-dark text-white">
+                        <img src="/images/artist-image.jpg" class="card-img" alt="Immagine Artista">
+                        <div class="card-img-overlay">
+                            <h5 class="card-title">Elenco Artisti</h5>
+                            <p class="card-text lead">Scopri i talentuosi artisti che hanno contribuito alla magia del cinema. Esplora le loro biografie e opere.</p>
+                            <a href="/artists" class="btn btn-outline-light btn-lg">Esplora</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+     <footer class="footer fixed-bottom">
+    <div class="container-fluid">
+        <div class="row mt-9 justify-content-end">
+            <div class="col-md-6">
+                <div class="footer-right">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="currentColor" class="bi bi-chat-right-dots" viewBox="0 0 16 16">
+                        <path d="M2 1a1 1 0 0 0-1 1v8a1 1 0 0 0 1 1h9.586a2 2 0 0 1 1.414.586l2 2V2a1 1 0 0 0-1-1H2zm12-1a2 2 0 0 1 2 2v12.793a.5.5 0 0 1-.854.353l-2.853-2.853a1 1 0 0 0-.707-.293H2a2 2 0 0 1-2-2V2a2 2 0 0 1 2-2h12z"/>
+                        <path d="M5 6a1 1 0 1 1-2 0 1 1 0 0 1 2 0zm4 0a1 1 0 1 1-2 0 1 1 0 0 1 2 0zm4 0a1 1 0 1 1-2 0 1 1 0 0 1 2 0z"/>
+                    </svg>
+                    <span><em>Contattaci sui social</em></span>
+                </div>
+            </div>
+            <div class="col-md-6 text-end">
+                <div class="footer-left">
+                    <span> SiwMovie2LaVendetta. &copy;Tutti i diritti riservati.</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</footer>
+</body>
+
+</html>

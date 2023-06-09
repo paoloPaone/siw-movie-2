@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<title>Conferma Eliminazione</title>
+	<link rel="stylesheet" href="/css/stile.css" />
+</head>
+<body>
+    <h1>Conferma Eliminazione Artista</h1>
+    <p>Sei sicuro di voler eliminare il seguente artista?</p>
+    
+    <h2 th:text="${artist.name}"></h2>
+    <p th:if="${artist.directedMovies != null}"><strong>Ha diretto i seguenti film:</strong>
+    <ul>
+		<li th:each="movie : ${artist.directedMovies}" th:text="${movie.title}"></li>
+	</ul>
+	 <p th:if="${artist.starredMovies != null}"><strong>Ha recitato nei seguenti film:</strong>
+    <ul>
+		<li th:each="movie : ${artist.starredMovies}" th:text="${movie.title}"></li>
+	</ul>	
+	</p>
+	
+   <form th:action="@{/admin/deleteArtist}" method="POST" >
+        <input type="hidden" name="artistId" th:value="${artist.id}">
+        <button type="submit">Conferma Eliminazione</button>
+    </form>
+    
+    <a href="/admin/artists">Torna alla lista degli artisti</a>
+</body>
+</html>
