@@ -33,10 +33,10 @@ import it.uniroma3.siw.service.ReviewService;
 
 @Controller
 public class MovieController {
-	
+
 	@Autowired 
 	private MovieValidator movieValidator;
-	
+
 	@Autowired 
 	private CredentialsService credentialsService;
 
@@ -48,7 +48,7 @@ public class MovieController {
 
 	@Autowired
 	private ReviewService reviewService;
-	
+
 	@Autowired
 	private ImageValidator imageValidator;
 
@@ -57,22 +57,22 @@ public class MovieController {
 		model.addAttribute("movie", new Movie());
 		return "admin/formNewMovie.html";
 	}
-	
-//	@GetMapping(value="/formUpdateMovie/{id}")
-//	public String formUpdateMovie(@PathVariable("id") Long id, Model model) {
-//		String ruolo = this.credentialsService.getRuolo();
-//		model.addAttribute("movie", this.movieService.getMovieById(id));
-//		if(ruolo.equals(Credentials.UTENTE_ROLE))
-//		return "utente/formUpdateMovie.html";
-//		else 
-//			return "admin/formUpdateMovie.html";		
-//	}
-	
+
+	//	@GetMapping(value="/formUpdateMovie/{id}")
+	//	public String formUpdateMovie(@PathVariable("id") Long id, Model model) {
+	//		String ruolo = this.credentialsService.getRuolo();
+	//		model.addAttribute("movie", this.movieService.getMovieById(id));
+	//		if(ruolo.equals(Credentials.UTENTE_ROLE))
+	//		return "utente/formUpdateMovie.html";
+	//		else 
+	//			return "admin/formUpdateMovie.html";		
+	//	}
+
 	//da rifattorizzzare
 	@GetMapping(value="/utente/formUpdateMovie/{id}")
 	public String formUpdateMovieUtente(@PathVariable("id") Long id, Model model) {
 		UserDetails userDetails = (UserDetails)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-    	Credentials credentials = this.credentialsService.getCredentials(userDetails.getUsername());
+		Credentials credentials = this.credentialsService.getCredentials(userDetails.getUsername());
 		User user = credentials.getUser();
 		Map<String, Review> review = user.getReview();
 		model.addAttribute("user",user);
@@ -88,26 +88,26 @@ public class MovieController {
 		model.addAttribute("movie", this.movieService.getMovieById(id));
 		return "admin/formUpdateMovie.html";
 	}
-	
+
 	@GetMapping(value="/admin/showReviews/{id}")
 	public String manageReviews(@PathVariable("id") Long id, Model model) {
 		model.addAttribute("movie", this.movieService.getMovieById(id));
 		model.addAttribute("reviews",this.reviewService.getReviewsByMovieId(id));
 		return "admin/manageReviews.html";
 	}
-	
-	
-//	@GetMapping(value="/indexMovie")
-//	public String indexMovie() {
-//		String ruolo = this.credentialsService.getRuolo();
-//		if(ruolo.equals(Credentials.UTENTE_ROLE))
-//		return "utente/indexMovie.html";
-//		else 
-//			return "admin/indexMovie.html";		
-//	}
 
-	
-	
+
+	//	@GetMapping(value="/indexMovie")
+	//	public String indexMovie() {
+	//		String ruolo = this.credentialsService.getRuolo();
+	//		if(ruolo.equals(Credentials.UTENTE_ROLE))
+	//		return "utente/indexMovie.html";
+	//		else 
+	//			return "admin/indexMovie.html";		
+	//	}
+
+
+
 	//da rifattorizzzare
 	@GetMapping(value="/utente/indexMovie")
 	public String indexMovieUtente() {
@@ -119,67 +119,67 @@ public class MovieController {
 	public String indexMovieAdmin() {
 		return "admin/indexMovie.html";
 	}
-	
-//	@GetMapping(value="/manageMovies")
-//	public String indexMovie() {
-//		String ruolo = this.credentialsService.getRuolo();
-//		if(ruolo.equals(Credentials.UTENTE_ROLE))
-//		return "utente/manageMovies.html";
-//		else 
-//			return "admin/manageMovies.html";		
-//	}
-	
+
+	//	@GetMapping(value="/manageMovies")
+	//	public String indexMovie() {
+	//		String ruolo = this.credentialsService.getRuolo();
+	//		if(ruolo.equals(Credentials.UTENTE_ROLE))
+	//		return "utente/manageMovies.html";
+	//		else 
+	//			return "admin/manageMovies.html";		
+	//	}
+
 	//da rifattorizzzare
 	@GetMapping(value="/utente/manageMovies")
 	public String manageMoviesUtente(Model model) {
 		model.addAttribute("movies", this.movieService.getAllMovies());
 		return "utente/manageMovies.html";
 	}
-	
+
 	//da rifattorizzzare
 	@GetMapping(value="/admin/manageMovies")
 	public String manageMovies(Model model) {
 		model.addAttribute("movies", this.movieService.getAllMovies());
 		return "admin/manageMovies.html";
 	}
-	
+
 	@GetMapping(value="/admin/setDirectorToMovie/{directorId}/{movieId}")
 	public String setDirectorToMovie(@PathVariable("directorId") Long directorId, @PathVariable("movieId") Long movieId, Model model) {
 		model.addAttribute("movie",this.movieService.setDirectorToMovie(directorId,movieId));
 		return "admin/formUpdateMovie.html";
 	}
-	
-	
+
+
 	@GetMapping(value="/admin/addDirector/{id}")
 	public String addDirector(@PathVariable("id") Long id, Model model) {
 		model.addAttribute("artists",this.artistService.getAllArtists());
 		model.addAttribute("movie", this.movieService.getMovieById(id));
 		return "admin/directorsToAdd.html";
 	}
-	
+
 	@GetMapping("/admin/confirmDeleteMovie/{movieId}")
-		public String showDeleteMovieConfirmation(@PathVariable("movieId") Long movieId, Model model) {
-		    Movie movie = movieService.getMovieById(movieId);
-		    List<Review> reviews = reviewService.getReviewsByMovieId(movieId);
-		    
-		    model.addAttribute("movie", movie);
-		    model.addAttribute("reviews", reviews);
-		    
-		    return "admin/delete_confirmation.html";
-		}
-	
+	public String showDeleteMovieConfirmation(@PathVariable("movieId") Long movieId, Model model) {
+		Movie movie = movieService.getMovieById(movieId);
+		List<Review> reviews = reviewService.getReviewsByMovieId(movieId);
+
+		model.addAttribute("movie", movie);
+		model.addAttribute("reviews", reviews);
+
+		return "admin/delete_confirmation.html";
+	}
+
 	@PostMapping(value="/admin/deleteMovie")
 	public String deleteMovie(@RequestParam("movieId") Long movieId,Model model) {
-	    // Elimina tutte le recensioni associate al film
-	    //reviewService.deleteReviewsByMovieId(movieId);
-	    
-	    // Elimina il film
-	    movieService.deleteMovie(movieId);
-	    model.addAttribute("message", "Eliminazione completata con successo");
-	   
-	    return "admin/deleteSuccess.html";
+		// Elimina tutte le recensioni associate al film
+		//reviewService.deleteReviewsByMovieId(movieId);
+
+		// Elimina il film
+		movieService.deleteMovie(movieId);
+		model.addAttribute("message", "Eliminazione completata con successo");
+
+		return "admin/deleteSuccess.html";
 	}
-    
+
 
 
 	@PostMapping("/admin/movie")
@@ -194,8 +194,8 @@ public class MovieController {
 			return "admin/formNewMovie.html"; 
 		}
 	}
-	
-	
+
+
 
 	@GetMapping("/movie/{id}")
 	public String getMovie(@PathVariable("id") Long id, Model model) {
@@ -207,17 +207,17 @@ public class MovieController {
 	public String getMovies(Model model) {
 		model.addAttribute("movies",this.movieService.getAllMovies());
 		try {
-    	UserDetails userDetails = (UserDetails)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-		Credentials credentials = credentialsService.getCredentials(userDetails.getUsername());
-		model.addAttribute("user", credentials.getUser());
-		return "registered/movies.html";
-    	}
+			UserDetails userDetails = (UserDetails)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+			Credentials credentials = credentialsService.getCredentials(userDetails.getUsername());
+			model.addAttribute("user", credentials.getUser());
+			return "registered/movies.html";
+		}
 		catch(Exception e ) {
 			//user non esiste			
 			return "movies.html";
 		}		
 	}
-	
+
 	@GetMapping("/formSearchMovies")
 	public String formSearchMovies() {
 		return "formSearchMovies.html";
@@ -228,13 +228,30 @@ public class MovieController {
 		model.addAttribute("movies",this.movieService.getMoviesByYear(year));
 		return "foundMovies.html";
 	}
-	
+
 	@GetMapping("/admin/updateActors/{id}")
 	public String updateActors(@PathVariable("id") Long id, Model model) {
-		 List<Artist> actorsToAdd = this.artistService.actorsToAdd(id);
+		List<Artist> actorsToAdd = this.artistService.actorsToAdd(id);
 		model.addAttribute("actorsToAdd", actorsToAdd);
 		model.addAttribute("movie", this.movieService.getMovieById(id));
 		return "admin/actorsToAdd.html";
+	}
+	
+	@PostMapping("/admin/addImageToMovie")
+	public String addImageToMovie(@RequestParam("file") MultipartFile image,@RequestParam("movieId") Long movieId,Model model) throws IOException {
+		Movie movie = this.movieService.getMovieById(movieId);
+		movieService.addImage(movie, image);
+		model.addAttribute("movie", movie);
+		return "admin/formUpdateMovie.html";
+
+
+	}
+
+	@GetMapping(value = "/admin/deleteImage/{movieId}/{imageId}")
+	public String removeImage(@PathVariable("movieId") Long movieId, @PathVariable("imageId") Long imageId,Model model) {
+		this.movieService.removeImage(movieId, imageId);
+		model.addAttribute("movie", this.movieService.getMovieById(movieId));
+		return "admin/formUpdateMovie.html";
 	}
 
 	@GetMapping(value="/admin/addActorToMovie/{actorId}/{movieId}")
@@ -245,7 +262,7 @@ public class MovieController {
 		model.addAttribute("actorsToAdd", actorsToAdd);
 		return "admin/actorsToAdd.html";
 	}
-	
+
 	@GetMapping(value="/admin/removeActorFromMovie/{actorId}/{movieId}")
 	public String removeActorFromMovie(@PathVariable("actorId") Long actorId, @PathVariable("movieId") Long movieId, Model model) {
 		Movie movie = this.movieService.removeActorFromMovie(movieId,actorId);
@@ -256,5 +273,5 @@ public class MovieController {
 		return "admin/actorsToAdd.html";
 	}
 
-	
-	}
+
+}

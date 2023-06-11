@@ -1,5 +1,8 @@
 body {
-    background-image:url("/images/sfondo-image.jpg");
+    background-image:url("/images/movie-image.jpg");
+    background-color: rgba(0, 0,0,0.8);
+    background-blend-mode: multiply;
+    
 }
 
 

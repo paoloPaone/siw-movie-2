@@ -26,28 +26,23 @@
         form-control {
 			color: white;
 		}
+		
     </style>
 </head>
 
 <body>
     <header>
-        <nav class="navbar navbar-expand-lg navbar-dark bg-dark"  data-bs-theme="dark">
-            <div class="container">
-                <a class="navbar-brand" href="/">SiwMovie</a>
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
-                    data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false"
-                    aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
-                <div class="collapse navbar-collapse" id="navbarNav">
-                    <ul class="navbar-nav ms-auto"  data-bs-theme="dark">
-                        <li class="nav-item">
-                            <a class="nav-link" href="/">Home</a>
-                        </li>
-                    </ul>
-                </div>
-            </div>
-        </nav>
+        <nav class="navbar navbar-expand-lg navbar">
+    <div class="container-fluid">
+        <div th:if="${#request.userPrincipal}">
+            <span th:text="${#request.userPrincipal.principal.username}"></span>
+            <a href="/logout"><button type="button" class="btn btn-outline-light">Logout</button></a>
+        </div>
+        <div th:unless="${#request.userPrincipal}">
+            <a href="/"><button type="button" class="btn btn-outline-light  ml-auto">Home</button></a>
+        </div>
+    </div>
+</nav>
     </header>
 
     <div class="container">
@@ -67,7 +62,7 @@
                 <span class="form-control" th:text="${user.email}"></span>
             </div>
              <p class="card-text" style="color: white;">Ora puoi aggiungere le recensione ai film che ti sono piaciuti di più!.</p>
-    <a href="/registed/movies" class="btn btn-outline-success">Accedi e guarda i film disponibili</a>
+    <a href="/movies" class="btn btn-outline-success">Accedi e guarda i film disponibili</a>
         </div>
     </div>
 </div>

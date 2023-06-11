@@ -76,6 +76,11 @@ public class AuthenticationController {
                  @ModelAttribute("credentials") Credentials credentials,
                  BindingResult credentialsBindingResult,
                  Model model) {
+		 // Verifica se l'username esiste già nel sistema
+	    if (credentialsService.usernameExists(credentials.getUsername())) {
+	        model.addAttribute("usernameError", "Username già in uso. Si prega di scegliere un altro username.");
+	        return "formRegisterUser";
+	    }
 
         // se user e credential hanno entrambi contenuti validi, memorizza User e the Credentials nel DB
         if(!userBindingResult.hasErrors() && ! credentialsBindingResult.hasErrors()) {

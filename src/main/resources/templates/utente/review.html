@@ -1,30 +1,123 @@
 <!DOCTYPE html>
 <html>
-  <head>
+
+<head>
     <title>Review</title>
-	<link rel="stylesheet" href="/css/stile.css" />
+    <link rel="stylesheet" href="/css/stile.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <style>
+        body {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            margin: 0;
+            padding: 0;
+        }
+      
+      .rating-stars .star {
+        color: #ffcc00;
+      }
+
+    .rating-stars .star:not(.fas) {
+      color: gold;
+      }
+
+      
+
+        .navbar {
+            background-color: transparent;
+            color: white;
+        }
+
+        .logo {
+            text-align: center;
+            margin-top: 20px;
+        }
+
+        .card {
+            width: 400px;
+            padding: 20px;
+            border: 1px solid #28a745;
+            border-radius: 10px;
+            margin-top: 20px;
+        }
+
+        .card-title {
+            font-weight: bold;
+            font-size: 20px;
+            margin-bottom: 10px;
+        }
+
+        .card-rating {
+            font-size: 18px;
+            margin-bottom: 10px;
+        }
+
+        .card-text {
+            margin-bottom: 10px;
+        }
+
+        .rating-stars {
+            color: #ffcc00;
+        }
+
+        .rating-stars .star {
+            color: gold;
+        }
+
+        .btn-back {
+            margin-top: 20px;
+        }
+        .rating-stars .star {
+    color: #ffcc00;
+}
+
+.rating-stars .star:not(.fas) {
+    color: gold;
+}
+
+    </style>
 </head>
 
 <body>
-	<header>
-		<div th:if="${#request.userPrincipal}">
-			<span th:text="${#request.userPrincipal.principal.username}"></span>
-			<a href="/logout">Logout</a>
-		</div>
-		<div th:unless="${#request.userPrincipal}">
-			<a href="/login">Login</a>
-		</div>
-	</header>
+    <header>
+        <nav class="navbar navbar-expand-lg navbar">
+            <div class="container d-flex justify-content-end">
+                <div th:if="${#request.userPrincipal}">
+                    <span class="navbar-text" th:text="${#request.userPrincipal.principal.username}"></span>
+                    <a href="/logout" class="btn btn-outline-success">Disconnettiti</a>
+                </div>
+                <div th:unless="${#request.userPrincipal}">
+                    <a href="/login" class="btn btn-outline-success">Accedi</a>
+                </div>
+            </div>
+        </nav>
+    </header>
 
-	<div><a href="/"><img src="/images/logo-siw.png" width="50%"/></a></div>
-    <h1>Dettagli Recensione</h1>
-    <div th:if="${review}">
-		<div th:text="${movie.title} + ':'"></div>
-        <div th:text="${review.title}"></div>
-        <span th:text="'(' + ${review.rating} + ')'">5</span>
-		<div th:text="${review.text}"></div>
+    <div class="logo">
+        <a href="/"><img src="/images/logo-siw.png" width="50%" /></a>
     </div>
-    <a  th:href="@{'/utente/indexMovie'}"><button type="button"> Conferma</button></a>
-    <div th:unless="${review}">Non c'e alcuna recensione</div>
-  </body>
+
+    <h1>Dettagli Recensione</h1>
+
+    <div th:if="${review}" class="card">
+        <div class="card-title" th:text="${movie.title}"></div>
+        <div class="card-title" th:text="${review.title}"></div>
+        <div class="card-rating" th:text="'Valutazione: '"></div>
+
+		<span th:each="i : ${#numbers.sequence(1, 5)}" style="color: gold;">
+			<span th:if="${i &lt;= review.rating}">&starf;</span>
+			<span th:if="${i > review.rating}">&star;</span>
+		</span>
+        <div class="card-text" th:text="${review.text}"></div>
+    </div>
+
+    <a th:href="@{'/utente/indexMovie'}" class="btn-back">
+        <button type="button">Conferma</button>
+    </a>
+
+    <div th:unless="${review}">Non c'è alcuna recensione</div>
+</body>
+
 </html>

@@ -2,54 +2,62 @@
 <html>
 
 <head>
-	<title>
-		New Artist
-	</title>
-	<link rel="stylesheet" href="/css/stile.css" />
+    <title>New Artist</title>
+    <link rel="stylesheet" href="/css/stile.css" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
 </head>
 
 <body>
-	<header>
-		<div th:if="${#request.userPrincipal}">
-			<span th:text="${#request.userPrincipal.principal.username}"></span>
-			<a href="/logout">Logout</a>
-		</div>
-		<div th:unless="${#request.userPrincipal}">
-			<a href="/login">Login</a>
-		</div>
-	</header>
+    <header>
+        <div th:if="${#request.userPrincipal}">
+            <span th:text="${#request.userPrincipal.principal.username}"></span>
+            <a href="/logout" class="btn btn-outline-success">Logout</a>
+        </div>
+        <div th:unless="${#request.userPrincipal}">
+            <a href="/login" class="btn btn-outline-success">Login</a>
+        </div>
+    </header>
 
-	<div><a href="/"><img src="/images/logo-siw.png" width="50%"/></a></div>
-	<h1>Aggiungi un artista</h1>
-	<form th:action="@{/admin/artist}" method="POST" th:object="${artist}" enctype="multipart/form-data">
-		<div>
-			<span th:text="${messaggioErrore}">Errore</span>
-		</div>
-		
-		<div>
-			<label>Nome:</label> <span><input required type="text" th:field="${artist.name}" /></span>
-		</div>
+    <div class="text-center mt-3">
+        <a href="/"><img src="/images/logo-siw.png" width="50%" /></a>
+    </div>
+    <div class="container mt-5">
+        <div class="row justify-content-center">
+            <div class="col-md-6">
+                <h1 class="text-center mb-4 text-white">Aggiungi un artista</h1>
+                <form th:action="@{/admin/artist}" method="POST" th:object="${artist}" enctype="multipart/form-data">
+                    <div class="mb-3">
+                        <label for="name" class="form-label">Nome:</label>
+                        <input required type="text" class="form-control" id="name" th:field="${artist.name}">
+                    </div>
 
-		<div>
-			<label>Cognome:</label> <span><input required type="text" th:field="${artist.surname}" /></span>
-		</div>
+                    <div class="mb-3">
+                        <label for="surname" class="form-label">Cognome:</label>
+                        <input required type="text" class="form-control" id="surname" th:field="${artist.surname}">
+                    </div>
 
-		<div>
-			<label>Data di nascita:</label> <span><input type="date" th:field="${artist.dateOfBirth}" /></span>
-		</div>
-		
-		<div>
-			<label>Data di morte:</label> <span><input type="date" th:field="${artist.dateOfDeath}" /></span>
-		</div>
+                    <div class="mb-3">
+                        <label for="dateOfBirth" class="form-label">Data di nascita:</label>
+                        <input type="date" class="form-control" id="dateOfBirth" th:field="${artist.dateOfBirth}">
+                    </div>
 
-		<div>
-			<label>Immagine:</label> <span><input type="file" accept="image/*" name="file" required /></span>
-		</div>
-		
-		<div>
-			<span><button type="submit">Conferma</button></span>
-		</div>
-	</form>
+                    <div class="mb-3">
+                        <label for="dateOfDeath" class="form-label">Data di morte:</label>
+                        <input type="date" class="form-control" id="dateOfDeath" th:field="${artist.dateOfDeath}">
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="image" class="form-label">Immagine:</label>
+                        <input type="file" accept="image/*" class="form-control" id="image" name="file" required>
+                    </div>
+
+                    <div class="text-center">
+                        <button type="submit" class="btn btn-success btn-lg">Conferma</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
 </body>
 
 </html>

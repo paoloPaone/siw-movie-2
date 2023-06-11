@@ -2,58 +2,205 @@
 <html>
 
 <head>
-	<title>
-		New Review
-	</title>
-	<link rel="stylesheet" href="/css/stile.css" />
+    <title>New Review</title>
+    <link rel="stylesheet" href="/css/stile.css" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <style>
+        body {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            margin: 0;
+            padding: 0;
+        }
+        
+        .rating-stars input[type="range"] {
+    	display: none;
+		}
+
+
+        .navbar {
+            background-color: transparent;
+            color: white;
+        }
+
+        .logo {
+            text-align: center;
+            margin-top: 20px;
+        }
+
+        .form-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            margin-top: 20px;
+            color: white;
+        }
+
+        form {
+            width: 400px;
+            padding: 20px;
+            border: 1px solid #28a745;
+            border-radius: 10px;
+        }
+
+        form div {
+            margin-bottom: 10px;
+        }
+
+        form label {
+            font-weight: bold;
+        }
+
+        form input[type="text"],
+        form select {
+            width: 100%;
+            padding: 5px;
+            border: 1px solid #28a745;
+            border-radius: 5px;
+            color: white;
+            background-color: transparent;
+            outline: none;
+        }
+
+        form button[type="submit"] {
+            padding: 10px 20px;
+            background-color: #28a745;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .rating {
+            margin-top: 20px;
+            text-align: center;
+        }
+
+        .rating .text-muted {
+            color: white;
+        }
+
+        .rating-stars {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .rating-stars input[type="range"] {
+            width: 200px;
+            height: 30px;
+            margin: 0 10px;
+            appearance: none;
+            background-color: transparent;
+        }
+        .rating-icons .star.checked {
+    		color: gold;
+    		font-weight: bold;
+		}
+
+
+        .rating-icons {
+            display: flex;
+            color: white;
+        }
+
+        .rating-icons .star {
+            font-size: 24px;
+            cursor: pointer;
+            transition: color 0.3s ease;
+        }
+
+        .rating-icons .star:hover,
+        .rating-icons .star.checked {
+            color: gold;
+        }
+    </style>
+    <script>
+        window.addEventListener('DOMContentLoaded', () => {
+            const ratingInput = document.getElementById('rating');
+            const ratingStars = document.querySelectorAll('.rating-icons .star');
+
+            ratingStars.forEach((star, index) => {
+                star.addEventListener('click', () => {
+                    ratingInput.value = index + 1;
+                    ratingStars.forEach((s, i) => {
+                        if (i <= index) {
+                            s.classList.add('checked');
+                        } else {
+                            s.classList.remove('checked');
+                        }
+                    });
+                });
+            });
+        });
+    </script>
 </head>
 
 <body>
-	<header>
-		<div th:if="${#request.userPrincipal}">
-			<span th:text="${#request.userPrincipal.principal.username}"></span>
-			<a href="/logout">Logout</a>
-		</div>
-		<div th:unless="${#request.userPrincipal}">
-			<a href="/login">Login</a>
-		</div>
-		
-	</header>
-	<div><a href="/"><img src="/images/logo-siw.png" width="50%"/></a></div>
-	<h1>Aggiungi una recensione</h1>
-	<form th:action="@{/utente/reviews/add/{movieId}(movieId=${movieId})}" method="POST" th:object="${review}">
-		  		<div th:if="${#fields.hasGlobalErrors()}">
-  			<p th:each="err : ${#fields.globalErrors()}" th:text="${err}">...</p> 
-  		</div>
-		
-		<div>
-			<label>Titolo:</label> 
-			<span><input type="text" th:field="${review.title}"  required /></span>
-		    <span th:if="${#fields.hasErrors('title')}" th:errors="*{title}">
-		    </span>
-		</div>
+    <header>
+       <nav class="navbar navbar-expand-lg navbar">
+  		<div class="container d-flex justify-content-end">
+    	<div th:if="${#request.userPrincipal}">
+      	<span class="navbar-text" th:text="${#request.userPrincipal.principal.username}"></span>
+      		<a href="/logout" class="btn btn-outline-success">Disconnettiti</a>
+    	</div>
+    	<div th:unless="${#request.userPrincipal}">
+      		<a href="/login" class="btn btn-outline-success">Accedi</a>
+    	</div>
+  	</div>
+	</nav>
 
-		<div>
-			<label>Testo:</label> <span><input type="text" th:field="${review.text}"  required /></span>
-		    <span th:if="${#fields.hasErrors('text')}" th:errors="*{text}">
-		    </span>
-		</div>
+    </header>
 
-		 <div>
-            <label for="rating">Valutazione:</label>
-            <select name="rating" id="rating">
-                <option value="1">1</option>
-                <option value="2">2</option>
-                <option value="3">3</option>
-                <option value="4">4</option>
-                <option value="5">5</option>
-            </select>
-        </div>
-		
-		<div>
-			<span><button type="submit">Conferma</button></span>
-		</div>
-	</form>
+    <div class="logo">
+        <a href="/"><img src="/images/logo-siw.png" width="50%" /></a>
+    </div>
+
+    <div class="form-container">
+        <h1>Aggiungi una recensione</h1>
+        <form th:action="@{/utente/reviews/add/{movieId}(movieId=${movieId})}" method="POST" th:object="${review}">
+            <div th:if="${#fields.hasGlobalErrors()}">
+                <p th:each="err : ${#fields.globalErrors()}" th:text="${err}">...</p>
+            </div>
+
+            <div>
+                <label>Titolo:</label>
+                <input type="text" th:field="${review.title}" required />
+                <span th:if="${#fields.hasErrors('title')}" th:errors="*{title}"></span>
+            </div>
+
+            <div>
+                <label>Testo:</label>
+                <input type="text" th:field="${review.text}" required />
+                <span th:if="${#fields.hasErrors('text')}" th:errors="*{text}"></span>
+            </div>
+
+            <div>
+                <label for="rating">Valutazione:</label>
+                <div class="rating">
+					
+                    <div class="rating-stars">
+                        <input type="range" name="rating" id="rating" min="1" max="5" step="1" />
+                        <div class="rating-icons">
+                            <span class="star far fa-star"></span>
+                            <span class="star far fa-star"></span>
+                            <span class="star far fa-star"></span>
+                            <span class="star far fa-star"></span>
+                            <span class="star far fa-star"></span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div>
+                <button type="submit">Conferma</button>
+            </div>
+        </form>
+    </div>
 </body>
 
 </html>

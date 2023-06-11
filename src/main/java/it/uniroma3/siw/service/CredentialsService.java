@@ -46,4 +46,8 @@ public class CredentialsService {
     	Credentials credentials = this.getCredentials(userDetails.getUsername());
     	return  credentials.getRole();
 	}
+
+	public boolean usernameExists(String username) {
+		return this.credentialsRepository.existsByUsername(username);
+	}
 }

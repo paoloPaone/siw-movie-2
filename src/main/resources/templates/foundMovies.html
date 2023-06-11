@@ -1,31 +1,58 @@
 <!DOCTYPE html>
 <html>
-
 <head>
 	<title>Film</title>
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.3.0/css/bootstrap.min.css">
 	<link rel="stylesheet" href="/css/stile.css" />
+	<style>
+		.card-columns {
+			column-count: 3;
+		}
+		.card {
+			width: 18rem;
+			margin-bottom: 1rem;
+			border: 5px solid darkgreen;
+			border-radius: 5%
+		}
+
+		.list-group-item {
+			border-color: green;
+			border-radius: 5%;
+			background-color: transparent;
+		}
+	</style>
 </head>
-
 <body>
-	<header>
-		<div th:if="${#request.userPrincipal}">
-			<span th:text="${#request.userPrincipal.principal.username}"></span>
-			<a href="/logout">Logout</a>
+	<nav class="navbar navbar-expand-lg ">
+		<a class="navbar-brand" href="/"><img src="/images/logo-siw.png" width="50%"/></a>
+		<button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
+			aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+			<span class="navbar-toggler-icon"></span>
+		</button>
+		<div class="collapse navbar-collapse" id="navbarNav">
+			<ul class="navbar-nav ml-auto">
+				<li class="nav-item">
+					<a th:if="${#request.userPrincipal}" class="btn btn-outline-light" href="/logout">Logout</a>
+					<a th:unless="${#request.userPrincipal}" class="btn btn-outline-light" href="/login">Login</a>
+				</li>
+			</ul>
 		</div>
-		<div th:unless="${#request.userPrincipal}">
-			<a href="/login">Login</a>
-		</div>
-	</header>
+	</nav>
 
-	<div><a href="/"><img src="/images/logo-siw.png" width="50%"/></a></div>
-	<h1>Film che soddisfano i requisiti</h1>
-	<div th:if="${movies.isEmpty()}">Non ci sono film che soddisfano i requisiti</div>
-	<ul th:if="${!movies.isEmpty()}">
-		<li th:each="movie : ${movies}">
-			<a href="movie.html" th:href="@{'/movie' + '/' + ${movie.id}}"
-				th:text="${movie.title} + ' (' + ${movie.year}+')'">Up! (2000)</a>
-		</li>
-	</ul>
+	<div class="container">
+		<h1 class="text-center mt-4">Film che soddisfano i requisiti</h1>
+		<div th:if="${movies.isEmpty()}" class="text-center">Non ci sono film che soddisfano i requisiti</div>
+		<div th:if="${!movies.isEmpty()}" class="card-columns">
+			<a th:each="movie : ${movies}" th:href="@{'/movie/' + ${movie.id}}" class="card bg-dark">
+				<div class="card-body text-center">
+					<ul class="list-group list-group-flush">
+						<li class="list-group-item text-white" th:text="${movie.title + ' ' + movie.year}"></li>
+					</ul>
+				</div>
+			</a>
+		</div>
+	</div>
+
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
 </body>
-
 </html>

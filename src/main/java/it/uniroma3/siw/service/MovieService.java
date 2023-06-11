@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
+import it.uniroma3.siw.controller.validator.ImageValidator;
 import it.uniroma3.siw.model.Artist;
 import it.uniroma3.siw.model.Image;
 import it.uniroma3.siw.model.Movie;
@@ -31,9 +32,10 @@ public class MovieService {
 	private ArtistService artistService;
 	@Autowired
 	private UserService userService;
-	
 	@Autowired
 	private ImageRepository imageRepository;
+	@Autowired
+	private ImageValidator imageValidator;
 
 
 
@@ -59,6 +61,27 @@ public class MovieService {
 	@Transactional
 	public void updateMovie(Movie movie) {
 		movieRepository.save(movie);
+	}
+
+	@Transactional
+	public void addImage(Movie movie, MultipartFile image) throws IOException{
+		if (this.imageValidator.isImage(image) || image.getSize() < ImageValidator.MAX_IMAGE_SIZE){
+			Image movieImg = new Image(image.getBytes());
+			this.imageRepository.save(movieImg);
+			movie.getImages().add(movieImg);
+			this.movieRepository.save(movie);
+		}
+
+	}
+
+
+
+	@Transactional
+	public void removeImage(Long movieId, Long imageId) {
+		Image image = this.imageRepository.findById(imageId).get();
+		Movie movie = this.getMovieById(movieId);
+		movie.getImages().remove(image);
+		this.movieRepository.save(movie);
 	}
 
 	@Transactional

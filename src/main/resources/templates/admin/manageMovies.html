@@ -2,31 +2,37 @@
 <html>
 
 <head>
-	<title>Film</title>
-	<link rel="stylesheet" href="/css/stile.css" />
+    <title>Film</title>
+    <link rel="stylesheet" href="/css/stile.css" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
 </head>
 
 <body>
-	<header>
-		<div th:if="${#request.userPrincipal}">
-			<span th:text="${#request.userPrincipal.principal.username}"></span>
-			<a href="/logout">Logout</a>
-		</div>
-		<div th:unless="${#request.userPrincipal}">
-			<a href="/login">Login</a>
-		</div>
-	</header>
+    <header>
+        <div th:if="${#request.userPrincipal}">
+            <span th:text="${#request.userPrincipal.principal.username}"></span>
+            <a href="/logout" class="btn btn-outline-success">Logout</a>
+        </div>
+        <div th:unless="${#request.userPrincipal}">
+            <a href="/login" class="btn btn-outline-success">Login</a>
+        </div>
+    </header>
 
-	<div><a href="/"><img src="/images/logo-siw.png" width="50%" /></a></div>
-	<h1>Film</h1>
-	<div th:if="${movies.isEmpty()}">Non ci sono film nel sistema</div>
-	<ul>
-		<li th:each="movie : ${movies}">
-			<span th:text="${movie.title} + ' (' + ${movie.year} + ')'">Up! (2000)</span>
-			<a th:href="@{'/admin/formUpdateMovie' + '/' + ${movie.id}}">Aggiorna</a>
-			<a th:href="@{'/admin/confirmDeleteMovie' + '/' + ${movie.id}}">Elimina</a>
-		</li>
-	</ul>
+    <div class="text-center mt-3">
+        <a href="/"><img src="/images/logo-siw.png" width="50%" /></a>
+    </div>
+
+    <div class="container mt-5">
+        <h1 class="text-center text-white lead">Questo è lo stato corrente del tuo archivio film</h1>
+        <div th:if="${movies.isEmpty()}" class="text-center">Non ci sono film nel sistema</div>
+        <ul class="list-group mt-4 bg-dark">
+            <li class="list-group-item bg-dark text-light text-center" th:each="movie : ${movies}">
+                <span th:text="${movie.title} + ' (' + ${movie.year} + ')'">Up! (2000)</span>
+                <a th:href="@{'/admin/formUpdateMovie/' + ${movie.id}}" class="btn btn-outline-success">Aggiorna</a>
+                <a th:href="@{'/admin/confirmDeleteMovie/' + ${movie.id}}" class="btn btn-outline-danger">Elimina</a>
+            </li>
+        </ul>
+    </div>
 </body>
 
 </html>
