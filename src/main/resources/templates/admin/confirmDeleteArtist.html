@@ -2,29 +2,74 @@
 <html>
 
 <head>
-	<title>Conferma Eliminazione</title>
-	<link rel="stylesheet" href="/css/stile.css" />
+    <title>Conferma Eliminazione</title>
+    <link rel="stylesheet" href="/css/stile.css" />
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+        body {
+            color: white;
+            font-size: 18px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+        }
+
+        .card {
+            max-width: 50%;
+            border-radius: 0.5rem;
+            text-align: center;
+            background-color: black;
+            color: white;
+            border: 1px solid red;
+        }
+
+        .card-header {
+            background-color: red;
+            color: white;
+        }
+
+        .card-title {
+            color: red;
+        }
+
+        .card-text {
+            color: white;
+        }
+
+        a {
+            color: white;
+            text-decoration: underline;
+        }
+    </style>
 </head>
+
 <body>
-    <h1>Conferma Eliminazione Artista</h1>
-    <p>Sei sicuro di voler eliminare il seguente artista?</p>
-    
-    <h2 th:text="${artist.name}"></h2>
-    <p th:if="${artist.directedMovies != null}"><strong>Ha diretto i seguenti film:</strong>
-    <ul>
-		<li th:each="movie : ${artist.directedMovies}" th:text="${movie.title}"></li>
-	</ul>
-	 <p th:if="${artist.starredMovies != null}"><strong>Ha recitato nei seguenti film:</strong>
-    <ul>
-		<li th:each="movie : ${artist.starredMovies}" th:text="${movie.title}"></li>
-	</ul>	
-	</p>
-	
-   <form th:action="@{/admin/deleteArtist}" method="POST" >
-        <input type="hidden" name="artistId" th:value="${artist.id}">
-        <button type="submit">Conferma Eliminazione</button>
-    </form>
-    
-    <a href="/admin/artists">Torna alla lista degli artisti</a>
+    <div class="card border-danger mb-3">
+        <div class="card-header">Conferma Eliminazione Artista</div>
+        <div class="card-body text-danger">
+            <h5 class="card-title" th:text="${artist.name}+ ' ' +${artist.surname}"></h5>
+            <p class="card-text">Sei sicuro di voler eliminare il seguente artista?</p>
+
+            <p th:if="${artist.directedMovies != null}"><strong>Ha diretto i seguenti film:</strong></p>
+            <ul>
+                <li th:each="movie : ${artist.directedMovies}" th:text="${movie.title}"></li>
+            </ul>
+            <p th:if="${artist.directedMovies == null || artist.directedMovies.isEmpty()}">Non ha diretto nessun film</p>
+
+            <p th:if="${artist.starredMovies != null}"><strong>Ha recitato nei seguenti film:</strong></p>
+            <ul>
+                <li th:each="movie : ${artist.starredMovies}" th:text="${movie.title}"></li>
+            </ul>
+            <p th:if="${artist.starredMovies == null || artist.starredMovies.isEmpty()}">Non ha recitato in nessun film</p>
+
+            <form th:action="@{/admin/deleteArtist}" method="POST">
+                <input type="hidden" name="artistId" th:value="${artist.id}">
+                <button type="submit" class="btn btn-danger">Conferma Eliminazione</button>
+            </form>
+            <a href="/admin/artists"><button type="submit" class="btn btn-light">Torna alla lista degli artisti</button></a>
+        </div>
+    </div>
 </body>
+
 </html>

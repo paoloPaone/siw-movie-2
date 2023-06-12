@@ -2,50 +2,73 @@
 <html>
 
 <head>
-	<title>Conferma Eliminazione</title>
-	<link rel="stylesheet" href="/css/stile.css" />
+    <title>Conferma Eliminazione</title>
+    <link rel="stylesheet" href="/css/stile.css" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+    <style>
+        body {
+            color: white;
+            font-size: 18px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+        }
+
+        .card {
+            max-width:50%;
+            border-radius: 0.5rem;
+            text-align: center;
+            background-color: black;
+            color: white;
+            border: 1px solid red;
+        }
+
+        .card-header {
+            background-color: red;
+            color: white;
+        }
+
+        .card-title {
+            color: red;
+        }
+
+        .card-text {
+            color: white;
+        }
+
+        a {
+            color: white;
+            text-decoration: underline;
+        }
+    </style>
 </head>
+
 <body>
-    <h1>Conferma Eliminazione Film</h1>
-    <p>Sei sicuro di voler eliminare il seguente film e le relative recensioni?</p>
-    
-    <h2 th:text="${movie.title}"></h2>
-    <p><strong>Anno:</strong> <span th:text="${movie.year}"></span></p>
-    <p th:if="${movie.director != null}"><strong>Regista:</strong> 
-		<span th:text="${movie.director.name}"></span>	
-	</p>
-	<p th:unless="${movie.director != null}">Non c'è alcun regista per questo film</p>
-    <p><strong>Attori:</strong></p>
-    <span th:if="${movie.actors.isEmpty()}">Non c'è alcun attore per questo film</span>
-    <ul>
-        <li th:each="actor : ${movie.actors}" th:text="${actor.name}"></li> 
-    </ul>
-    
-    <h3>Recensioni:</h3>
-    <table>
-        <thead>
-            <tr>
-                <th>Titolo</th>
-                <th>Valutazione</th>
-                <th>Testo</th>
-                <th>Utente</th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr th:each="review : ${reviews}">
-                <td th:text="${review.title}"></td>
-                <td th:text="${review.rating}"></td>
-                <td th:text="${review.text}"></td>
-                <td th:text="${review.owner.surname}"></td>
-            </tr>
-        </tbody>
-    </table>
-    
-   <form th:action="@{/admin/deleteMovie}" method="POST" >
-        <input type="hidden" name="movieId" th:value="${movie.id}">
-        <button type="submit">Conferma Eliminazione</button>
-    </form>
-    
-    <a href="/admin/manageMovies">Torna alla lista dei film</a>
+    <div class="card border-danger mb-3">
+        <div class="card-header">Conferma Eliminazione Film</div>
+        <div class="card-body text-danger">
+            <h5 class="card-title" th:text="${movie.title}"></h5>
+            <p class="card-text">Sei sicuro di voler eliminare il seguente film e le relative recensioni?</p>
+
+            <p><strong>Anno:</strong> <span th:text="${movie.year}"></span></p>
+            <p th:if="${movie.director != null}"><strong>Regista:</strong>
+                <span th:text="${movie.director.name}"></span>
+            </p>
+            <p th:unless="${movie.director != null}">Non c'è alcun regista per questo film</p>
+            <p><strong>Attori:</strong></p>
+            <span th:if="${movie.actors.isEmpty()}">Non c'è alcun attore per questo film</span>
+            <ul>
+                <li th:each="actor : ${movie.actors}" th:text="${actor.name}"></li>
+            </ul>
+
+            <form th:action="@{/admin/deleteMovie}" method="POST">
+                <input type="hidden" name="movieId" th:value="${movie.id}">
+                <button type="submit" class="btn btn-danger">Conferma Eliminazione</button>
+            </form>
+            <a href="/admin/manageMovies"><button type="submit" class="btn btn-light">Torna alla lista dei film</button></a>
+        </div>
+    </div>
 </body>
+
 </html>

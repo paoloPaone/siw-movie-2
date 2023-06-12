@@ -4,28 +4,57 @@
 <head>
 	<title>Scelta regista</title>
 	<link rel="stylesheet" href="/css/stile.css" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+  <style>
+    .card {
+			border-color: green;
+			border-radius: 10%;
+			background-color: transparent;
+		}
+
+		.card:hover {
+			background-color: rgba(0, 128, 0, 0.3);
+		}
+
+		.list-group-item {
+			border-color: green;
+			border-radius:10%;
+			background-color:transparent;
+		}
+		
+  </style>
 </head>
 
 <body>
 	<header>
 		<div th:if="${#request.userPrincipal}">
 			<span th:text="${#request.userPrincipal.principal.username}"></span>
-			<a href="/logout">Logout</a>
+			<a href="/logout"><button type="button" class="btn btn-outline-light">Disconnettiti</button></a>
 		</div>
 		<div th:unless="${#request.userPrincipal}">
-			<a href="/login">Login</a>
+			<a href="/login"><button type="button" class="btn btn-outline-light">Iscriviti</button></a>
 		</div>
 	</header>
 
-	<div><a href="/"><img src="/images/logo-siw.png" width="50%"/></a></div>
-	<h1 th:text="'Regista per il film ' + ${movie.title}"></h1>
-	<div th:if="${artists.isEmpty()}">Non ci sono registi nel sistema</div>
-	<ul>
-		<li th:each="artist : ${artists}">
-			<a th:href="@{'/admin/setDirectorToMovie/'+ ${artist.id}+'/'+${movie.id}}"
-				th:text="${artist.name} + ' ' + ${artist.surname}">Steven Spielberg</a>
-		</li>
-	</ul>
+	<div class="container text-center justify-content-center">
+		<div class="row">
+			<div class="col-12">
+				<a href="/"><img src="/images/logo-siw.png" width="30%" /></a>
+			</div>
+		</div>
+		<h1 th:text="'Regista per il film ' + ${movie.title}" class="text-center"></h1>
+		<div th:if="${artists.isEmpty()}" class="text-center">Non ci sono registi nel sistema</div>
+		<div class="list-container">
+		<div class="card-columns justify-content-center">
+			<a th:each="artist : ${artists}" th:href="@{'/admin/setDirectorToMovie/'+ ${artist.id}+'/'+${movie.id}}"
+				class="card bg-dark" style="width: 18rem;">
+				<ul class="list-group list-group-flush">
+					<li class="list-group-item text-white text-center" th:text="${artist.name + ' ' + artist.surname}">Steven Spielberg</li>
+				</ul>
+			</a>
+		</div>
+		</div>
+	</div>
 </body>
 
 </html>

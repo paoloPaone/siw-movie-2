@@ -21,8 +21,7 @@ public class ArtistService {
 
     @Autowired
     private ArtistRepository artistRepository;
-    @Autowired
-    private MovieService movieService;
+    
     @Autowired
 	private ImageRepository imageRepository;
     

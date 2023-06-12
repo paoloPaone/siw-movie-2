@@ -36,7 +36,7 @@
                 <div th:if="${artist}" class="card text-center card-custom">
                     <div th:if="${artist.picture != null}">
                         <img th:src="@{'data:image/*;base64,'+${artist.picture.base64Image}}" class="card-img-top"
-                            alt="Artist Image" />
+                            alt="Artist Image"  />
                     </div>
                     <div class="card-body">
                         <h5 class="card-title text-white" th:text="${artist.name + ' ' + artist.surname}">Dino Risi</h5>

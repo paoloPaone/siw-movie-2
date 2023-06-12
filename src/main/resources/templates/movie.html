@@ -14,24 +14,23 @@
 
         header {
             width: 100%;
-            
         }
 
         .navbar {
             display: flex;
             align-items: center;
         }
-        
+
         .star {
-    	color: gold;
-		}
+            color: gold;
+        }
 
         .card {
-            width: 300px;
-            background-color:transparent;
+            width: 500px;
+            height: 500px;
+            background-color: transparent;
             padding: 20px;
             margin-top: 20px;
-            
         }
 
         .movie-card img {
@@ -51,69 +50,66 @@
 
 <body>
     <header>
-    <nav class="navbar navbar-expand-lg navbar-transparent">
-    <div class="container-fluid">
-        <div th:if="${#request.userPrincipal}">
-            <span th:text="${#request.userPrincipal.principal.username}"></span>
-            <a href="/logout"><button type="button" class="btn btn-outline-light">Logout</button></a>
-        </div>
-            <a href="/"><button type="button" class="btn btn-outline-light  ml-auto">Home</button></a>
-        </div>
-    </div>
-</nav>
-
-</header>
+        <nav class="navbar navbar-expand-lg navbar-transparent">
+            <div class="container-fluid">
+                <div th:if="${#request.userPrincipal}">
+                    <span th:text="${#request.userPrincipal.principal.username}"></span>
+                    <a href="/logout"><button type="button" class="btn btn-outline-light">Logout</button></a>
+                </div>
+                <a href="/"><button type="button" class="btn btn-outline-light ml-auto">Home</button></a>
+            </div>
+        </nav>
+    </header>
 
     <div>
         <a href="/"><img src="/images/logo-siw.png" width="50%" /></a>
     </div>
     <div th:if="${movie}">
-    <div class="card text-center  text-white">
-        <div th:if="${movie.picture != null}">
-            <img th:src="@{'data:image/*;base64,'+${movie.picture.base64Image}}" class="card-img-top" width="10%" alt="Movie Poster" />
-        </div>
-        <div class="card-body">
-            <h2 class="card-title" th:text="${movie.title}"></h2>
-            <p class="card-text" th:text="'(' + ${movie.year} + ')'"></p>
-            <div th:if="${movie.director}">
-                <h3>Regista:</h3>
-                <a th:href="@{'/artist/' + ${movie.director.id}}"
-                    th:text="${movie.director.name} + ' ' + ${movie.director.surname}"></a>
+        <div class="card text-center text-white">
+            <div th:if="${movie.picture != null}">
+                <img th:src="@{'data:image/*;base64,'+${movie.picture.base64Image}}" class="card-img-top" width="10%"
+                    alt="Movie Poster" />
             </div>
-            <div th:if="${!movie.actors.isEmpty()}">
-                <h3>Cast:</h3>
-                <ul>
-                    <li th:each="actor : ${movie.actors}">
-                        <a th:href="@{'/artist/' + ${actor.id}}"
-                            th:text="${actor.name} + ' ' + ${actor.surname}"></a>
-                    </li>
-                </ul>
+            <div class="card-body">
+                <h2 class="card-title" th:text="${movie.title}"></h2>
+                <p class="card-text" th:text="${movie.year}"></p>
+                <div th:if="${movie.director}">
+                    <h3>Regista:</h3>
+                    <a th:href="@{'/artist/' + ${movie.director.id}}"
+                        th:text="${movie.director.name} + ' ' + ${movie.director.surname}"></a>
+                </div>
+                <div th:if="${!movie.actors.isEmpty()}">
+                    <h3>Cast:</h3>
+                    <ul>
+                        <li th:each="actor : ${movie.actors}">
+                            <a th:href="@{'/artist/' + ${actor.id}}"
+                                th:text="${actor.name} + ' ' + ${actor.surname}"></a>
+                        </li>
+                    </ul>
+                </div>
+                <div th:if="${movie.reviews == null || movie.reviews.isEmpty()}">Non ci sono recensioni per tale film nel
+                    sistema</div>
+                <div th:unless="${movie.reviews.isEmpty()}">
+                    Recensioni:
+                    <ul>
+                        <li th:each="rev : ${movie.reviews}">
+                            <div th:text="${rev.title}"></div>
+                            <div th:text="${rev.text}"></div>
+                            <span th:if="${rev.rating >= 1}" class="star">&#9733;</span>
+                            <span th:if="${rev.rating >= 2}" class="star">&#9733;</span>
+                            <span th:if="${rev.rating >= 3}" class="star">&#9733;</span>
+                            <span th:if="${rev.rating >= 4}" class="star">&#9733;</span>
+                            <span th:if="${rev.rating >= 5}" class="star">&#9733;</span>
+                            <div th:text="'Scritto da' + ' ' +${rev.owner.name}"></div>
+                        </li>
+                    </ul>
+                </div>
             </div>
-            <div th:if="${movie.reviews == null || movie.reviews.isEmpty()}">Non ci sono recensioni per tale film nel sistema</div>
-            <div th:unless="${movie.reviews.isEmpty()}">
-    Recensioni:
-    <ul>
-        <li th:each="rev : ${movie.reviews}">
-            <div th:text="${rev.title}"></div>
-            <div th:text="${rev.text}"></div>
-            <span th:if="${rev.rating >= 1}" class="star">&#9733;</span>
-            <span th:if="${rev.rating >= 2}" class="star">&#9733;</span>
-            <span th:if="${rev.rating >= 3}" class="star">&#9733;</span>
-            <span th:if="${rev.rating >= 4}" class="star">&#9733;</span>
-            <span th:if="${rev.rating >= 5}" class="star">&#9733;</span>
-             <div th:text=" 'Scritto da' + ' ' +${rev.owner.name}"></div>
-        </li>
-    </ul>
-</div>
-
-
         </div>
     </div>
-</div>
-</div>
 
-        <a href="/movies"><button type="button" class="btn btn-outline-success">Torna alla lista dei film</button></a>
-    </div>
+    <a href="/movies" class="btn btn-outline-success">Torna alla lista dei film</a>
+
 </body>
 
 </html>

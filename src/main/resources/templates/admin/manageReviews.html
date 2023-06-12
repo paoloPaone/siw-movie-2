@@ -1,35 +1,143 @@
 <!DOCTYPE html>
 <html>
-  <head>
+
+<head>
     <title>Reviews Movie</title>
     <link rel="stylesheet" href="/css/stile.css" />
-  </head>
+    <!-- Aggiungi i tuoi fogli di stile personalizzati se necessario -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
 
-  <body>
-    <header>
-      <div th:if="${#request.userPrincipal}">
-        <span th:text="${#request.userPrincipal.principal.username}"></span>
-        <a href="/logout">Logout</a>
-      </div>
-      <div th:unless="${#request.userPrincipal}">
-        <a href="/login">Login</a>
-      </div>
+    <style>
+        body {
+            color: white;
+            font-size: 18px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .navbar {
+            background-color: transparent;
+            margin-top: 0%;
+        }
+
+        .navbar-brand svg {
+            margin-right: 0.5rem;
+        }
+
+        .navbar-brand em {
+            font-weight: bold;
+        }
+
+        .container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            width: 100%;
+            max-width: 800px;
+        }
+
+        .card {
+            background-color: black;
+            border: 1px solid white;
+            border-radius:10%;
+            border-color: green;
+            padding: 1rem;
+            margin-bottom: 1rem;
+            width: 100%;
+        }
+
+        .card-title {
+            font-size: 20px;
+            font-weight: bold;
+            margin-bottom: 0.5rem;
+        }
+
+        .card-text {
+            margin-bottom: 1rem;
+        }
+
+        .card-info {
+            font-size: 16px;
+        }
+
+        .stars {
+            color: yellow;
+        }
+    </style>
+</head>
+
+<body>
+    <header class="navbar navbar-expand-lg navbar">
+        <div class="container justify-content-center">
+            <div class="collapse navbar-collapse justify-content-center" id="navbarNav">
+                <ul class="navbar-nav">
+                    <li class="nav-item">
+                        <a class="nav-link" href="/">
+                            <button type="button" class="btn btn-outline-light">Home</button>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/logout">
+                            <button type="button" class="btn btn-outline-light">Disconnettiti</button>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
     </header>
 
-    <div>
-      <a href="/"><img src="/images/logo-siw.png" width="50%" /></a>
+    <div class="container text-center">
+        <a href="/"><img src="/images/logo-siw.png" width="100%" /></a>
     </div>
-      	<h1 th:text="'Recensioni del film '+  ${movie.title}+ ':'"></h1>
-      	<div th:if="${movie.reviews == null || movie.reviews.isEmpty()}">Non ci sono recensioni per tale film nel sistema</div>
-      	<div th:unless="${movie.reviews.isEmpty()}">
-      	<ul>
-      		<li th:each="rev : ${movie.reviews}">
-    		 <div th:text="${rev.title}"></div>
-   			 <div th:text="${rev.text}"></div>
-   			 Voto:<span th:text="${rev.rating}"></span>Autore:<span th:text="${rev.owner.name}"></span>
-   			 <a th:href="@{'/admin/deleteReview/'+${rev.id}}">Elimina Recensione</a>
-   			</li>
-   		</ul>
-   		</div>	 
-  	</body>
+
+    <div class="container ">
+        <div class="row">
+            <div class="col-12">
+                <h1 style="text-align: center;" th:text="'Recensioni del film ' + ${movie.title} + ':'"></h1>
+                <div th:if="${movie.reviews == null || movie.reviews.isEmpty()}">Non ci sono recensioni per questo film
+                    nel sistema</div>
+                <div th:unless="${movie.reviews.isEmpty()}">
+                    <div th:each="rev : ${movie.reviews}">
+                        <div class="card">
+                            <h5 class="card-title" th:text="${rev.title}"></h5>
+                            <p class="card-text" th:text="${rev.text}"></p>
+                            <p class="card-info">
+                                Voto:
+                                <span class="stars" th:if="${rev.rating >= 1}">&#9733;</span>
+                                <span class="stars" th:if="${rev.rating >= 2}">&#9733;</span>
+                                <span class="stars" th:if="${rev.rating >= 3}">&#9733;</span>
+                                <span class="stars" th:if="${rev.rating >= 4}">&#9733;</span>
+                                <span class="stars" th:if="${rev.rating >= 5}">&#9733;</span>
+                                Autore: <span th:text="${rev.owner.name}"></span>
+                            </p>
+                            
+                            </a>
+                            <a th:href="@{'/admin/deleteReview/'+${rev.id}}" class="btn btn-outline-danger btn-sm d-flex align-items-center justify-content-center p-0" style="width: 70px; height: 30px;">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-trash" viewBox="0 0 16 16">
+                                    <path d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5Zm2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5Zm3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0V6Z"/>
+                                    <path d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1v1ZM4.118 4 4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4H4.118ZM2.5 3h11V2h-11v1Z"/>
+                                </svg>
+                                <span class="ml-1">Elimina</span>
+                            </a>
+                        </div>
+                    </div>
+                    
+                </div>
+                
+            </div>
+            
+        </div>
+        
+    </div>
+    <a href="javascript:history.back()" class="btn btn-outline-primary btn-sm d-flex align-items-center justify-content-center p-0"
+                                style="width: 120px; height: 30px;">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-arrow-left" viewBox="0 0 16 16">
+                                    <path fill-rule="evenodd" d="M10.354 2.646a.5.5 0 0 1 0 .708L5.707 8l4.647 4.646a.5.5 0 0 1-.708.708l-5-5a.5.5 0 0 1 0-.708l5-5a.5.5 0 0 1 .708 0Z"/>
+                                </svg>
+                                <span class="ml-1">Torna indietro</span>
+</body>
+
 </html>

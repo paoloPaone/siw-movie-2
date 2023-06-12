@@ -18,7 +18,6 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import it.uniroma3.siw.controller.validator.ReviewValidator;
 import it.uniroma3.siw.model.Credentials;
 import it.uniroma3.siw.model.Movie;
 import it.uniroma3.siw.model.Review;
@@ -33,8 +32,7 @@ public class ReviewController {
 
 	@Autowired
 	private ReviewService reviewService;
-	@Autowired
-	private ReviewValidator reviewValidator;
+
 	@Autowired
 	private MovieService movieService;
 	@Autowired 
@@ -60,18 +58,18 @@ public class ReviewController {
 		return "utente/formNewReview.html";
 
 	}
-	
+
 	@GetMapping(value="/admin/deleteReview/{reviewId}")
 	public String deleteReview(@PathVariable("reviewId") Long id,Model model) {
 		reviewService.deleteReview(id);
 		model.addAttribute("message", "La recensione è stta eliminata con successo");
 		return "admin/confirmDeleteReview.html";
 	}
-	
+
 	@PostMapping(value="/utente/aggiornaReview/{reviewId}")
 	public String aggiornaReview(@PathVariable("reviewId") Long id, @RequestParam("title") String title,
-            @RequestParam("text") String text,
-            @RequestParam("rating") Integer rating,Authentication authentication,Model model) {
+			@RequestParam("text") String text,
+			@RequestParam("rating") Integer rating,Authentication authentication,Model model) {
 		Review review = this.reviewService.getReviewById(id);
 		review.setDate(LocalDateTime.now());
 		review.setRating(rating);
@@ -142,6 +140,7 @@ public class ReviewController {
 		//    			return "admin/formNewMovie.html"; 
 		//    		}
 	}
+
 
 
 

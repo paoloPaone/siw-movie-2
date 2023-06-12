@@ -68,7 +68,7 @@
 
                         <div th:if="${!movie.images.isEmpty()}">
                             <div th:each="image : ${movie.images}">
-                                <img th:src="@{'data:image/*;base64,'+${image.base64Image}}">
+                                <img th:src="@{'data:image/*;base64,'+${image.base64Image}}" style="max-width:150px;">
                                 <a th:href="@{'/admin/deleteImage/'+${movie.id}+'/'+${image.id}}" class="btn btn-outline-success">Cancella immagine</a>
                             </div>
                         </div>
