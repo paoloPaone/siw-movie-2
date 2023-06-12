@@ -246,6 +246,16 @@ public class MovieController {
 
 
 	}
+	
+	@PostMapping("/admin/addPosterToMovie")
+	public String addPosterToMovie(@RequestParam("file") MultipartFile image,@RequestParam("movieId") Long movieId,Model model) throws IOException {
+		Movie movie = this.movieService.getMovieById(movieId);
+		movieService.addPoster(movie, image);
+		model.addAttribute("movie", movie);
+		return "admin/formUpdateMovie.html";
+
+
+	}
 
 	@GetMapping(value = "/admin/deleteImage/{movieId}/{imageId}")
 	public String removeImage(@PathVariable("movieId") Long movieId, @PathVariable("imageId") Long imageId,Model model) {

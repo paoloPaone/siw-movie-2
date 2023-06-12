@@ -73,6 +73,17 @@ public class MovieService {
 		}
 
 	}
+	
+	@Transactional
+	public void addPoster(Movie movie, MultipartFile image) throws IOException{
+		if (this.imageValidator.isImage(image) || image.getSize() < ImageValidator.MAX_IMAGE_SIZE){
+			Image movieImg = new Image(image.getBytes());
+			this.imageRepository.save(movieImg);
+			movie.setPicture(movieImg);
+			this.movieRepository.save(movie);
+		}
+
+	}
 
 
 

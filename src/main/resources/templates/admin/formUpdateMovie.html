@@ -59,7 +59,12 @@
                             </div>
                             <a th:href="@{'/admin/updateActors/' + ${movie.id}}" class="btn btn-outline-success">Modifica</a>
                         </div>
-
+						<form th:action="@{/admin/addPosterToMovie/}" method="post" enctype="multipart/form-data">
+                            <input type="hidden" name="movieId" th:value="${movie.id}">
+                            <input type="file" accept="image/*" name="file" required/>
+                            <input type="submit" value="Aggiungi copertina" class="btn btn-outline-success"></input>
+						</form>
+				
                         <form th:action="@{/admin/addImageToMovie/}" method="post" enctype="multipart/form-data">
                             <input type="hidden" name="movieId" th:value="${movie.id}">
                             <input type="file" accept="image/*" name="file" required/>
