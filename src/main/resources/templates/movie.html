@@ -74,7 +74,9 @@
         <div id="carouselExampleFade" class="carousel slide carousel-fade" style="max-width: 50%;">
   <div class="carousel-inner">
     <div class="carousel-item active">
+		<div th:if="${movie.picture!=null}">
       <img th:src="@{'data:image/;base64,' + ${movie.picture.base64Image}}" class="d-block w-100" alt="Copertina">
+      </div>
     </div>
     
     <div class="carousel-item" th:if="${!movie.images.isEmpty()}" th:each="image : ${movie.images}">
