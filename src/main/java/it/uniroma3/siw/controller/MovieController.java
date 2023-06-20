@@ -71,15 +71,15 @@ public class MovieController {
 	//da rifattorizzzare
 	@GetMapping(value="/utente/formUpdateMovie/{id}")
 	public String formUpdateMovieUtente(@PathVariable("id") Long id, Model model) {
+		Movie movie = this.movieService.getMovieById(id);
 		UserDetails userDetails = (UserDetails)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 		Credentials credentials = this.credentialsService.getCredentials(userDetails.getUsername());
 		User user = credentials.getUser();
-		Map<String, Review> review = user.getReview();
+		Map<String, Review> review = this.reviewService.getUserReviews(user);
+		boolean giaRecensito = review.containsKey(movie.getTitle());
 		model.addAttribute("user",user);
-		model.addAttribute("review",review);
-		Movie movie = this.movieService.getMovieById(id);
+		model.addAttribute("giaRecensito", giaRecensito);
 		model.addAttribute("movie", movie);
-		model.addAttribute("recen", review.get(movie.getTitle()));
 		return "utente/formUpdateMovie.html";
 	}
 

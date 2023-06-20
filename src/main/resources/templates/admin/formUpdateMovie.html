@@ -62,7 +62,13 @@
 						<form th:action="@{/admin/addPosterToMovie/}" method="post" enctype="multipart/form-data">
                             <input type="hidden" name="movieId" th:value="${movie.id}">
                             <input type="file" accept="image/*" name="file" required/>
+                            <div th:if="${movie.picture==null}">
                             <input type="submit" value="Aggiungi copertina" class="btn btn-outline-success"></input>
+                            </div>
+                            <div th:unless="${movie.picture==null}">
+                            <input type="submit" value="Aggiorna copertina" class="btn btn-outline-success"></input>
+                            </div>
+                            
 						</form>
 				
                         <form th:action="@{/admin/addImageToMovie/}" method="post" enctype="multipart/form-data">

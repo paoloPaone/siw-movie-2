@@ -1,7 +1,9 @@
 package it.uniroma3.siw.service;
 
 import java.time.LocalDateTime;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -73,5 +75,16 @@ public class ReviewService {
 		review.setTitle(title);
 		this.updateReview(review);
 		return review;
+	}
+
+    @Transactional
+	public Map<String, Review> getUserReviews(User user) {
+    	Map<String, Review> result=new HashMap<>();
+    	
+    	Map<String, Review> review = user.getReview();
+    	result.putAll(review);
+    	
+		return result;
+		
 	}
 }
