@@ -98,7 +98,7 @@ public class ReviewController {
 		// Ottieni il film dal servizio
 		Movie movie = movieService.getMovieById(id);				
 		// se all'utente è gia associata una recensione con quel film sostuicìsci la vecchia  recensione con la nuova
-		Map<String, Review> movie2review = owner.getReview();
+		Map<String, Review> movie2review = reviewService.getUserReviews(owner);
 		String titleMovie = movie.getTitle();
 		if(movie2review.containsKey(titleMovie))
 			movie2review.put(titleMovie,new Review());
