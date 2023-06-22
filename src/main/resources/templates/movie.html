@@ -116,6 +116,10 @@
                 </div>
                 <div th:if="${movie.reviews == null || movie.reviews.isEmpty()}">Non ci sono recensioni per tale film nel
                     sistema</div>
+                    
+                
+                    
+                 <span>La media di tutte le recensioni e</span> <span th:text="${media}"></span>
                 <div th:unless="${movie.reviews.isEmpty()}">
                     Recensioni:
                     <ul>

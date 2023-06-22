@@ -98,7 +98,7 @@ public class MovieService {
 	@Transactional
 	public void deleteMovie(Long id) {
 		Movie movie = this.getMovieById(id);
-		List<Review> reviews = movie.getReviews();
+		Set<Review> reviews = movie.getReviews();
 		for (Review review : reviews) {
 			User owner = review.getOwner();
 			owner.getReviews().remove(review);
@@ -143,5 +143,9 @@ public class MovieService {
 		this.movieRepository.save(movie);
 		return movie;
 
+	}
+
+	public Double getMediaRecensioniPerFilm(Movie movie) {
+		return movieRepository.computeAverageRatingById(movie.getId());
 	}
 }

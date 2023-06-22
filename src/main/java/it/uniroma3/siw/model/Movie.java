@@ -14,6 +14,8 @@ import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
+import javax.persistence.Table;
+import javax.persistence.UniqueConstraint;
 import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotBlank;
@@ -21,6 +23,7 @@ import javax.validation.constraints.NotNull;
 
 
 @Entity
+//@Table(uniqueConstraints = @UniqueConstraint(columnNames = {"title", "year"}))
 public class Movie {
 
 	@Id
@@ -54,7 +57,7 @@ public class Movie {
 
 
 	@OneToMany(mappedBy = "movie",cascade = CascadeType.ALL)
-	private List<Review> reviews;
+	private Set<Review> reviews;
 	
 
 
@@ -100,11 +103,11 @@ public class Movie {
 		this.actors = actors;
 	}
 
-	public List<Review> getReviews() {
+	public Set<Review> getReviews() {
 		return reviews;
 	}
 
-	public void setReviews(List<Review> reviews) {
+	public void setReviews(Set<Review> reviews) {
 		this.reviews = reviews;
 	}
 

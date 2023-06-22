@@ -11,8 +11,10 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
+import it.uniroma3.siw.controller.validator.ImageValidator;
 import it.uniroma3.siw.model.Artist;
 import it.uniroma3.siw.model.Image;
+import it.uniroma3.siw.model.Movie;
 import it.uniroma3.siw.repository.ArtistRepository;
 import it.uniroma3.siw.repository.ImageRepository;
 
@@ -25,6 +27,9 @@ public class ArtistService {
     @Autowired
 	private ImageRepository imageRepository;
     
+    @Autowired
+	private ImageValidator imageValidator;
+    
 
     @Transactional
     public Iterable<Artist> getAllArtists() {
@@ -36,14 +41,7 @@ public class ArtistService {
         return artistRepository.findById(id).orElse(null);
     }
 
-    @Transactional
-    public void addArtist(@Valid Artist artist, MultipartFile image) throws IOException {
-    	Image artistImg = new Image(image.getBytes());
-        this.imageRepository.save(artistImg);
-        artist.setPicture(artistImg);
-        this.artistRepository.save(artist);
-		
-	}
+    
 
     @Transactional
     public void updateArtist(Artist artist) {
@@ -69,6 +67,41 @@ public class ArtistService {
 			actorsToAdd.add(a);
 		}
 		return actorsToAdd;
+	}
+    
+    @Transactional
+    public List<Artist> allArtists() {
+    	List<Artist> all = new ArrayList<>();
+    	Iterable<Artist> artists = this.artistRepository.findAll();
+    	for(Artist a : artists) 
+    		all.add(a);
+    	return all;
+    }
+
+
+	@Transactional
+	public void setPicture(Artist artist, MultipartFile image) throws IOException{
+		if (this.imageValidator.isImage(image) || image.getSize() < ImageValidator.MAX_IMAGE_SIZE){
+			Image oldImgArtist = artist.getPicture();
+			Image newArtistImg = new Image(image.getBytes());
+			this.imageRepository.save(newArtistImg);
+			artist.setPicture(newArtistImg);
+			this.imageRepository.delete(oldImgArtist);
+			this.artistRepository.save(artist);
+		}
+
+	}
+    
+    
+	@Transactional
+	public void addPicture(Artist artist, MultipartFile image) throws IOException{
+		if (this.imageValidator.isImage(image) || image.getSize() < ImageValidator.MAX_IMAGE_SIZE){
+			Image artistImg = new Image(image.getBytes());
+			this.imageRepository.save(artistImg);
+			artist.setPicture(artistImg);
+			this.artistRepository.save(artist);
+		}
+
 	}
 
 	

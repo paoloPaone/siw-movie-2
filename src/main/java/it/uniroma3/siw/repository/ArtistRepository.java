@@ -19,5 +19,8 @@ public interface ArtistRepository extends CrudRepository<Artist,Long> {
 
 	boolean existsByNameAndSurname(String nome, String cognome);
 
+	public Iterable<Artist> findAllByOrderBySurname();
+
+
 
 }
