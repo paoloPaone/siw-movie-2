@@ -4,9 +4,9 @@
 <head>
 	<title>Scelta regista</title>
 	<link rel="stylesheet" href="/css/stile.css" />
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
-  <style>
-    .card {
+	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+	<style>
+		.card {
 			border-color: green;
 			border-radius: 10%;
 			background-color: transparent;
@@ -18,11 +18,18 @@
 
 		.list-group-item {
 			border-color: green;
-			border-radius:10%;
-			background-color:transparent;
+			border-radius: 10%;
+			background-color: transparent;
 		}
-		
-  </style>
+
+		.icon-svg {
+			display: inline-block;
+			width: 16px;
+			height: 16px;
+			margin-right: 5px;
+			vertical-align: middle;
+		}
+	</style>
 </head>
 
 <body>
@@ -45,14 +52,21 @@
 		<h1 th:text="'Regista per il film ' + ${movie.title}" class="text-center"></h1>
 		<div th:if="${artists.isEmpty()}" class="text-center">Non ci sono registi nel sistema</div>
 		<div class="list-container">
-		<div class="card-columns justify-content-center">
-			<a th:each="artist : ${artists}" th:href="@{'/admin/setDirectorToMovie/'+ ${artist.id}+'/'+${movie.id}}"
-				class="card bg-dark" style="width: 18rem;">
-				<ul class="list-group list-group-flush">
-					<li class="list-group-item text-white text-center" th:text="${artist.name + ' ' + artist.surname}">Steven Spielberg</li>
-				</ul>
-			</a>
-		</div>
+			<div class="card-columns justify-content-center">
+				<a th:each="artist : ${artists}" th:href="@{'/admin/setDirectorToMovie/'+ ${artist.id}+'/'+${movie.id}}"
+					class="card bg-dark" style="width: 18rem;">
+					<ul class="list-group list-group-flush">
+						<li class="list-group-item text-white text-center">
+							<svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" fill="red"
+								class="bi bi-plus icon-svg" viewBox="0 0 16 16">
+								<path
+									d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4z" />
+							</svg>
+							<span th:text="${artist.name + ' ' + artist.surname}">Steven Spielberg</span>
+						</li>
+					</ul>
+				</a>
+			</div>
 		</div>
 	</div>
 </body>

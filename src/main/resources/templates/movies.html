@@ -36,6 +36,9 @@
 			border-radius:10%;
 			background-color:transparent;
 		}
+		.text-center  {
+			margin-bottom: 10px;
+		}
 	</style>
 </head>
 
@@ -80,11 +83,13 @@
 	<div>
 		<a href="/"><img src="/images/logo-siw.png" width="50%" /></a>
 	</div>
+	
 	<div class="container d-flex justify-content-center align-items-center">
 		<div class="text-center">
 			<div class="col-6">
 				<h1><em>Film</em></h1>
 				<div th:if="${movies==null || movies.isEmpty()}">Non ci sono film nel sistema</div>
+				
 				<div class="card-columns">
 					<a th:each="movie : ${movies}" th:href="@{'/movie/' + ${movie.id}}" class="card bg-dark"
 						style="width: 18rem;">
@@ -94,8 +99,9 @@
 					</a>
 				</div>
 			</div>
-		</div>
+		</div>		
 	</div>
+	
 	
 	
 

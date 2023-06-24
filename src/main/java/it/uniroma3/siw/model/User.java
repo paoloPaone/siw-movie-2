@@ -1,13 +1,12 @@
 package it.uniroma3.siw.model;
-import java.util.List;
-import java.util.Map;
+import java.util.Set;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.MapKeyColumn;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
@@ -23,14 +22,9 @@ public class User {
 	private String surname;
 
 	private String email;
-	@OneToMany(mappedBy = "owner",cascade = CascadeType.REMOVE)
-	private List<Review> reviews;
+	@OneToMany(mappedBy = "owner",cascade = CascadeType.REMOVE,fetch = FetchType.EAGER)
+	private Set<Review> reviews;
 
-	@MapKeyColumn(name="review_key")
-	@OneToMany(cascade = CascadeType.REMOVE)
-	//devo verificare che se all'utente è gia associata una recensione a quello specifico film ,
-	//allora non devo permettere l'aggiunta recensione. 
-	private Map<String, Review> review;
 
 
 	public Long getId() {
@@ -64,19 +58,13 @@ public class User {
 		this.email = email;
 	}
 
-	public Map<String, Review> getReview() {
-		return review;
-	}
 
-	public void setReview(Map<String, Review> reviews) {
-		this.review = reviews;
-	}
 
-	public List<Review> getReviews() {
+	public Set<Review> getReviews() {
 		return reviews;
 	}
 
-	public void setReviews(List<Review> reviews) {
+	public void setReviews(Set<Review> reviews) {
 		this.reviews = reviews;
 	}
 }

@@ -46,7 +46,9 @@ public class MovieService {
 
 	@Transactional
 	public Movie getMovieById(Long id) {
-		return movieRepository.findById(id).orElse(null);
+		Movie newMovie = movieRepository.findById(id).orElse(null);
+		return newMovie;
+		 
 	}
 
 	@Transactional
@@ -102,7 +104,6 @@ public class MovieService {
 		for (Review review : reviews) {
 			User owner = review.getOwner();
 			owner.getReviews().remove(review);
-			owner.getReview().remove(movie.getTitle());
 			this.userService.saveUser(owner);
 		}
 		movieRepository.deleteById(id);
@@ -145,7 +146,28 @@ public class MovieService {
 
 	}
 
+	
+	@Transactional
 	public Double getMediaRecensioniPerFilm(Movie movie) {
 		return movieRepository.computeAverageRatingById(movie.getId());
 	}
+
+	
+	@Transactional
+	public Long getNumAllMovies() {
+		return movieRepository.numeroFilm();
+	}
+
+	
+	@Transactional
+	public void addReviewToMovie(Review review, Movie movie) {
+		Set<Review> reviews = movie.getReviews();
+		if(!reviews.contains(review)) {
+				reviews.add(review);
+				this.updateMovie(movie);
+		}
+	}
+
+	
+	
 }

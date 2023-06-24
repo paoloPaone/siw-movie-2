@@ -18,6 +18,7 @@ public interface MovieRepository extends CrudRepository<Movie,Long> {
     Double computeAverageRatingById(@Param("movieId") Long movieId);
 
 
-
+	@Query("SELECT COUNT(*) FROM Movie")
+	Long numeroFilm();
 
 }

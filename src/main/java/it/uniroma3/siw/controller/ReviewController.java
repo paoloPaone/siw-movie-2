@@ -1,7 +1,6 @@
 package it.uniroma3.siw.controller;
 
 import java.time.LocalDateTime;
-import java.util.Map;
 
 import javax.validation.Valid;
 
@@ -16,7 +15,6 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-
 
 import it.uniroma3.siw.model.Credentials;
 import it.uniroma3.siw.model.Movie;
@@ -52,10 +50,11 @@ public class ReviewController {
 	}
 
 	@GetMapping("/utente/addReview/{movieId}")
-	//@PreAuthorize("hasRole('ROLE_USER')")
 	public String formNewReview(@PathVariable("movieId") Long id, Model model,Authentication authentication) {
 		Review review = new Review();
+		Movie movie = movieService.getMovieById(id);
 		model.addAttribute("review",review);
+		model.addAttribute("movie",movie);
 		return "utente/formNewReview.html";
 
 	}
@@ -63,67 +62,61 @@ public class ReviewController {
 	@GetMapping(value="/admin/deleteReview/{reviewId}")
 	public String deleteReview(@PathVariable("reviewId") Long id,Model model) {
 		reviewService.deleteReview(id);
-		model.addAttribute("message", "La recensione è stta eliminata con successo");
+		model.addAttribute("message", "La recensione è stata eliminata con successo");
 		return "admin/confirmDeleteReview.html";
 	}
 
-	@PostMapping(value="/utente/aggiornaReview/{reviewId}")
-	public String resocontoAggiornamentoReview(@PathVariable("reviewId") Long id, @RequestParam("title") String title,
-			@RequestParam("text") String text,
-			@RequestParam("rating") Integer rating,Authentication authentication,Model model) {
-		Review review = reviewService.updateReview(id,rating,text,title);
+	@PostMapping(value="/utente/aggiornaReview")
+	public String resocontoAggiornamentoReview(@ModelAttribute("review") Review review,@RequestParam("movieId") Long movieId,Model model) {
+		Movie movie = movieService.getMovieById(movieId);
+		this.aggiornaInfoReview(review, movie);
+		model.addAttribute("movie",movie);
 		model.addAttribute("review", review);
-		model.addAttribute("movie",review.getMovie());
-		
 		return "utente/review.html";
 	}
-
-
-	@GetMapping("/utente/updateReview/{movieId}")
-	public String formUpdateReview(@PathVariable("movieId") Long id,Authentication authentication, Model model) {
-		Movie movie = this.movieService.getMovieById(id);
-		UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-		String username = userDetails.getUsername();
-		Credentials credentials = credentialsService.getCredentials(username);
-		User user = credentials.getUser();
-		Review review = user.getReview().get(movie.getTitle());
-		model.addAttribute("review", review);
-		return "utente/changeReview.html";
-	}
-
-	@PostMapping(value="/utente/reviews/add/{movieId}") 
-	public String newReview(@Valid @ModelAttribute("review") Review review,@PathVariable("movieId") Long id, Model model,Authentication authentication) {
-		// Imposta il proprietario della recensione
-		User owner = setProprietario(review);
-		// Ottieni il film dal servizio
+	
+	@PostMapping(value="/utente/reviews/add") 
+	public String newReview(@Valid @ModelAttribute("review") Review review,@RequestParam("movieId") Long id, Model model) {
 		Movie movie = movieService.getMovieById(id);
-		
-		// se all'utente è gia associata una recensione con quel film sostuicìsci la vecchia  recensione con la nuova
-		Map<String, Review> movie2review = reviewService.getUserReviews(owner);
-		String titleMovie = movie.getTitle();
-		if(movie2review.containsKey(titleMovie))
-			movie2review.put(titleMovie,new Review());
-		
-		updateReview(review, movie);
-		// Aggiungi la recensione al film
-		movie.getReviews().add(review);
-		movieService.updateMovie(movie);
-		// Aggiorna la recensione dell'utente aggiungendo l'info sul titolo del film recensito
-		movie2review.put(titleMovie, review);
-		userService.updateUser(owner);
+		aggiornaInfoReview(review, movie);
+		addReviewToMovie(review, movie);
 		reviewService.updateReview(review);
 		model.addAttribute("review", review);
 		model.addAttribute("movie", movie);
 		return "utente/review.html";
 	}
-
-	private void updateReview(Review review, Movie movie) {
-		// Imposta il film nella recensione
+	
+	private void aggiornaInfoReview(Review review,Movie movie ) {
 		review.setMovie(movie);
-		// Imposta la data corrente alla recensione
+		User owner = this.setProprietario(review);
+		userService.updateUser(owner);
 		review.setDate(LocalDateTime.now());
+		reviewService.updateReview(review);
+		
+	}
+
+
+	@GetMapping("/utente/updateReview/{movieId}")
+	public String formUpdateReview(@PathVariable("movieId") Long movieId,Authentication authentication, Model model) {
+		UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+		String username = userDetails.getUsername();
+		Credentials credentials = credentialsService.getCredentials(username);
+		User user = credentials.getUser();
+		Long userId = user.getId();
+		Review review = reviewService.findByMovieIdAndOwnerId(movieId,userId);
+		model.addAttribute("review", review);
+		model.addAttribute("movie", movieService.getMovieById(movieId));
+		return "utente/changeReview.html";
+	}
+
+	
+
+	private void addReviewToMovie(Review review, Movie movie) {
+		// Imposta il film nella recensione
 		// Salva la recensione nel database
 		reviewService.addReview(review);
+		//aggiorna il film corrente
+		movieService.addReviewToMovie(review,movie);
 	}
 
 	private User setProprietario(Review review) {
@@ -132,6 +125,8 @@ public class ReviewController {
 		Credentials credentials = credentialsService.getCredentials(username);
 		User user = credentials.getUser();
 		review.setOwner(user);
+		userService.updateUser(user);
+		user.getReviews().add(review);
 		return user;
 	}
 
@@ -155,4 +150,3 @@ public class ReviewController {
 
 
 }
-

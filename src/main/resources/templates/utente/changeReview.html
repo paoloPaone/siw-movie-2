@@ -166,7 +166,7 @@
 
     <div class="form-container">
         <h1>Aggiungi una recensione</h1>
-        <form th:action="@{'/utente/aggiornaReview/' + ${review.id}}" method="POST" th:object="${review}">
+        <form th:action="@{/utente/aggiornaReview}" method="POST" th:object="${review}">
             <div th:if="${#fields.hasGlobalErrors()}">
                 <p th:each="err : ${#fields.globalErrors()}" th:text="${err}">...</p>
             </div>
@@ -182,12 +182,16 @@
                 <input type="text" th:field="*{text}" required />
                 <span th:if="${#fields.hasErrors('text')}" th:errors="*{text}"></span>
             </div>
+            
+            <input type="hidden" th:field="*{id}"   th:value="${review.id}"  >
+            
+            <input type="hidden" name="movieId"   th:value="${movie.id}"  >
 
             <div>
                 <label for="rating">Valutazione:</label>
                 <div class="rating">
                     <div class="rating-stars">
-                        <input type="range" name="rating" id="rating" min="1" max="5" step="1" />
+                        <input type="range" th:field="*{rating}" id="rating" min="1" max="5" step="1" />
                         <div class="rating-icons">
                             <span class="star far fa-star"></span>
                             <span class="star far fa-star"></span>

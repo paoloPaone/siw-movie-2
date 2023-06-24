@@ -31,10 +31,7 @@ public class ArtistService {
 	private ImageValidator imageValidator;
     
 
-    @Transactional
-    public Iterable<Artist> getAllArtists() {
-        return artistRepository.findAll();
-    }
+    
 
     @Transactional
     public Artist getArtistById(Long id) {

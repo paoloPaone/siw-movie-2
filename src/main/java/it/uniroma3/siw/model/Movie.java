@@ -50,13 +50,11 @@ public class Movie {
 	private Artist director;
 
 	
-
-
-	@ManyToMany
+	@ManyToMany(fetch = FetchType.EAGER)
 	private Set<Artist> actors;
 
 
-	@OneToMany(mappedBy = "movie",cascade = CascadeType.ALL)
+	@OneToMany(mappedBy = "movie",cascade = CascadeType.ALL,fetch = FetchType.EAGER)
 	private Set<Review> reviews;
 	
 

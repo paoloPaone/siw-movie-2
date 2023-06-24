@@ -2,7 +2,6 @@ package it.uniroma3.siw.controller;
 
 import java.io.IOException;
 import java.util.List;
-import java.util.Map;
 
 import javax.validation.Valid;
 
@@ -75,8 +74,7 @@ public class MovieController {
 		UserDetails userDetails = (UserDetails)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 		Credentials credentials = this.credentialsService.getCredentials(userDetails.getUsername());
 		User user = credentials.getUser();
-		Map<String, Review> review = this.reviewService.getUserReviews(user);
-		boolean giaRecensito = review.containsKey(movie.getTitle());
+		boolean giaRecensito = reviewService.existsByMovieIdAndUserId(movie.getId(),user.getId());
 		model.addAttribute("user",user);
 		model.addAttribute("giaRecensito", giaRecensito);
 		model.addAttribute("movie", movie);
@@ -97,46 +95,22 @@ public class MovieController {
 	}
 
 
-	//	@GetMapping(value="/indexMovie")
-	//	public String indexMovie() {
-	//		String ruolo = this.credentialsService.getRuolo();
-	//		if(ruolo.equals(Credentials.UTENTE_ROLE))
-	//		return "utente/indexMovie.html";
-	//		else 
-	//			return "admin/indexMovie.html";		
-	//	}
-
-
-
-	//da rifattorizzzare
+	
 	@GetMapping(value="/utente/indexMovie")
 	public String indexMovieUtente() {
 		return "utente/indexMovie.html";
 	}
 
-	//da rifattorizzzare
 	@GetMapping(value="/admin/indexMovie")
 	public String indexMovieAdmin() {
 		return "admin/indexMovie.html";
 	}
-
-	//	@GetMapping(value="/manageMovies")
-	//	public String indexMovie() {
-	//		String ruolo = this.credentialsService.getRuolo();
-	//		if(ruolo.equals(Credentials.UTENTE_ROLE))
-	//		return "utente/manageMovies.html";
-	//		else 
-	//			return "admin/manageMovies.html";		
-	//	}
-
-	//da rifattorizzzare
 	@GetMapping(value="/utente/manageMovies")
 	public String manageMoviesUtente(Model model) {
 		model.addAttribute("movies", this.movieService.getAllMovies());
 		return "utente/manageMovies.html";
 	}
 
-	//da rifattorizzzare
 	@GetMapping(value="/admin/manageMovies")
 	public String manageMovies(Model model) {
 		model.addAttribute("movies", this.movieService.getAllMovies());
@@ -152,7 +126,7 @@ public class MovieController {
 
 	@GetMapping(value="/admin/addDirector/{id}")
 	public String addDirector(@PathVariable("id") Long id, Model model) {
-		model.addAttribute("artists",this.artistService.getAllArtists());
+		model.addAttribute("artists",this.artistService.allArtists());
 		model.addAttribute("movie", this.movieService.getMovieById(id));
 		return "admin/directorsToAdd.html";
 	}
@@ -170,9 +144,6 @@ public class MovieController {
 
 	@PostMapping(value="/admin/deleteMovie")
 	public String deleteMovie(@RequestParam("movieId") Long movieId,Model model) {
-		// Elimina tutte le recensioni associate al film
-		//reviewService.deleteReviewsByMovieId(movieId);
-
 		// Elimina il film
 		movieService.deleteMovie(movieId);
 		model.addAttribute("message", "Eliminazione completata con successo");
@@ -216,7 +187,6 @@ public class MovieController {
 			return "registered/movies.html";
 		}
 		catch(Exception e ) {
-			//user non esiste			
 			return "movies.html";
 		}		
 	}
@@ -241,9 +211,13 @@ public class MovieController {
 	}
 	
 	@PostMapping("/admin/addImageToMovie")
-	public String addImageToMovie(@RequestParam("file") MultipartFile image,@RequestParam("movieId") Long movieId,Model model) throws IOException {
+	public String addImageToMovie(@RequestParam("file") MultipartFile image,@RequestParam("movieId") Long movieId,
+			BindingResult bindingResult,Model model) throws IOException {
 		Movie movie = this.movieService.getMovieById(movieId);
-		movieService.addImage(movie, image);
+		this.movieValidator.validate(movie, bindingResult);
+		if(!bindingResult.hasErrors()) {
+			movieService.addImage(movie, image);
+		}
 		model.addAttribute("movie", movie);
 		return "admin/formUpdateMovie.html";
 
@@ -251,9 +225,12 @@ public class MovieController {
 	}
 	
 	@PostMapping("/admin/addPosterToMovie")
-	public String addPosterToMovie(@RequestParam("file") MultipartFile image,@RequestParam("movieId") Long movieId,Model model) throws IOException {
+	public String addPosterToMovie(@RequestParam("file") MultipartFile image,@RequestParam("movieId") Long movieId,BindingResult bindingResult, Model model) throws IOException {
 		Movie movie = this.movieService.getMovieById(movieId);
-		movieService.addPoster(movie, image);
+		this.movieValidator.validate(movie, bindingResult);
+		if(!bindingResult.hasErrors()) {
+			movieService.addPoster(movie, image);
+		}
 		model.addAttribute("movie", movie);
 		return "admin/formUpdateMovie.html";
 

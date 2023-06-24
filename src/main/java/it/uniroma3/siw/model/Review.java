@@ -4,6 +4,7 @@ import java.time.LocalDateTime;
 import java.util.Objects;
 
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -29,9 +30,9 @@ public class Review {
 	private Integer rating;
 	
 	private LocalDateTime date;
-	@ManyToOne
+	@ManyToOne(fetch = FetchType.EAGER)
 	private Movie movie;
-	@ManyToOne
+	@ManyToOne(fetch = FetchType.EAGER)
 	private User owner;
 
 	public Long getId() {

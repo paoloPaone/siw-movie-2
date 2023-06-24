@@ -6,16 +6,20 @@ import java.util.Set;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
+import javax.persistence.Table;
+import javax.persistence.UniqueConstraint;
 
 import org.springframework.format.annotation.DateTimeFormat;
 
 @Entity
+//@Table(uniqueConstraints = @UniqueConstraint(columnNames = {"name", "surname"}))
 public class Artist {
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
@@ -34,13 +38,10 @@ public class Artist {
 	@OneToOne(cascade = CascadeType.REMOVE)
 	private Image picture;
 
-	
-
-
-	@OneToMany(mappedBy = "director")
+	@OneToMany(mappedBy = "director",fetch = FetchType.EAGER)
 	private Set<Movie> directedMovies;
 
-	@ManyToMany(mappedBy = "actors")
+	@ManyToMany(mappedBy = "actors",fetch = FetchType.EAGER)
 	private Set<Movie> starredMovies;
 
 	public Long getId() {

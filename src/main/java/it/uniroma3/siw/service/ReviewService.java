@@ -48,7 +48,6 @@ public class ReviewService {
 		movie.getReviews().remove(review);
     	this.movieService.updateMovie(movie);
     	User owner = review.getOwner();
-    	owner.getReview().remove(movie.getTitle());
     	owner.getReviews().remove(review);
     	this.userService.updateUser(owner);
     	this.reviewRepository.deleteById(id);
@@ -77,14 +76,19 @@ public class ReviewService {
 		return review;
 	}
 
+  
+
     @Transactional
-	public Map<String, Review> getUserReviews(User user) {
-    	Map<String, Review> result=new HashMap<>();
-    	
-    	Map<String, Review> review = user.getReview();
-    	result.putAll(review);
-    	
-		return result;
-		
+	public Integer getNumeroRecensioni(Movie movie) {
+		return this.reviewRepository.countByMovie(movie);
+	}
+
+	public boolean existsByMovieIdAndUserId(Long movieId, Long userId) {
+		return this.reviewRepository.existsByMovieIdAndOwnerId(movieId,userId);
+		 
+	}
+
+	public Review findByMovieIdAndOwnerId(Long movieId, Long userId) {
+		return this.reviewRepository.findByMovieIdAndOwnerId(movieId,userId);
 	}
 }
